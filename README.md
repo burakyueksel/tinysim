@@ -1,2 +1,3 @@
 # tinysim
-A tiny sim for aerial robots
+A tiny simulator for aerial robots.
+It is written in c++.
