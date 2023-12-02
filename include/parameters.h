@@ -3,8 +3,8 @@
  * Author: Burak Yueksel
  * Date: 2023-12-02
  */
-
 #pragma once
+
 #include <eigen3/Eigen/Dense> // Include Eigen library for vector and matrix operations
 #include <vector>
 

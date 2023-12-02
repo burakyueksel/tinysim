@@ -24,9 +24,9 @@ Parameters parameters
     // physical properties
     .mass = 1.0, // Set the mass for drone 1
     .inertiaMatrix = Eigen::Matrix3d(
-                                    1.0, 0.0, 0.0,
-                                    0.0, 2.0, 0.0,
-                                    0.0, 0.0, 3.0),
+                        1.0, 0.0, 0.0,
+                        0.0, 2.0, 0.0,
+                        0.0, 0.0, 3.0),
     // init states
     .initPos = Eigen::Vector3d ( 0.0, 0.0, 0.0),
     // pos ctrl ref dyn

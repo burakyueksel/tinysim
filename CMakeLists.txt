@@ -11,11 +11,14 @@ set(BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
 
 # Add all source files in the src directory
 file(GLOB SOURCES src/*.cpp)
-file(GLOB SOURCES src/control/*.cpp)
-file(GLOB SOURCES src/parameters/*.cpp)
+file(GLOB CONTROL_SOURCES src/control/*.cpp)
+file(GLOB PARAMETER_SOURCES src/parameters/*.cpp)
+
+# Append the source files from the subdirectories to the main SOURCES variable
+list(APPEND SOURCES ${CONTROL_SOURCES} ${PARAMETER_SOURCES})
 
 # Create the executable
-add_executable(tinysim src/main.cpp)
+add_executable(tinysim ${SOURCES})
 
 # Set the output directory
 set_target_properties(tinysim PROPERTIES

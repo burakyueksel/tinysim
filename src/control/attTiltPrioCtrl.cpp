@@ -1,19 +1,10 @@
 #include "control.h"
-#include "parameters.h"
-
-// util functions
-
-template <typename T>
-int mySignum(T value) {
-    return (value > T(0)) - (value < T(0));
-}
-
 
 // Attitude, tilt prioritizing quaternion based control
-Eigen::Vector3d attTiltPrioControl(Eigen::Quaterniond quatDes, Eigen::Quaterniond quat, Eigen::Vector3d angVelDes_rps, Eigen::Vector3d angVel_rps, Eigen::Vector3d angVelDotEst_rps)
+Eigen::Vector3d Control::attTiltPrioControl(Eigen::Quaterniond quatDes, Eigen::Quaterniond quat, Eigen::Vector3d angVelDes_rps, Eigen::Vector3d angVel_rps, Eigen::Vector3d angVelDotEst_rps)
 {
     // source:https://www.flyingmachinearena.ethz.ch/wp-content/publications/2018/breTCST18.pdf
-
+    Parameters parameters;
     // eq.13
     Eigen::Quaterniond quatError = quatDes * quat.inverse(); // assumption: eigen does the correct multiplication
     // eq. 14
