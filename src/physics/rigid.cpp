@@ -168,3 +168,18 @@ void RigidPhysics::setExternalTorqueBody(const Eigen::Vector3d& torque) {
 void RigidPhysics::setExternalForceBody(const Eigen::Vector3d& force) {
     externalForceBody = force;
 }
+
+Eigen::Vector3d RigidPhysics::getPosition() const {
+    return position;
+}
+
+Eigen::Vector3d RigidPhysics::getVelocity() const {
+    return velocity;
+}
+Eigen::Quaterniond RigidPhysics::getQuaternion() const {
+    return orientation;
+}
+
+Eigen::Vector3d RigidPhysics::getBodyRates() const {
+    return angularVelocity;
+}
