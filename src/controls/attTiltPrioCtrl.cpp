@@ -1,4 +1,4 @@
-#include "control.h"
+#include "controls.h"
 #include "parameters.h"
 
 // Attitude, tilt prioritizing quaternion based control

@@ -23,8 +23,9 @@ set(BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
 
 # Add all source files in the src directory
 file(GLOB SOURCES "src/*.cpp"
-                  "src/controls/*.cpp"
-                  "src/parameters/*.cpp")
+                  "src/parameters/*.cpp"
+                  "src/physics/*.cpp"
+                  "src/controls/*.cpp")
 
 # Create the executable
 add_executable(tinysim ${SOURCES})

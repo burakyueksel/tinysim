@@ -3,7 +3,7 @@
  * Author: Burak Yueksel
  * Date: 2023-12-02
  */
-#include "control.h"
+#include "controls.h"
 #include "parameters.h"
 #include <iostream>
 #include <fstream>
