@@ -18,8 +18,8 @@ double damping_X    = 1.0;
 double damping_Y    = 1.0;
 double damping_Z    = 1.0;
 
-Parameters::Parameters()
-    : droneType(DroneTypes::MC_QUAD),  // Initialize your parameters here
+droneParameters::droneParameters(): 
+      droneType(DroneTypes::MC_QUAD),  // Initialize your parameters here
       mass(1.0),
       // example: inertiaMatrix(Eigen::Matrix3d::Identity()),
       inertiaMatrix((Eigen::Matrix3d() << 1.0, 0.0, 0.0,
@@ -43,8 +43,8 @@ Parameters::Parameters()
     // Additional initialization if needed
 }
 
-Parameters& Parameters::getInstance()
+droneParameters& droneParameters::getInstance()
 {
-    static Parameters instance;
+    static droneParameters instance;
     return instance;
 }

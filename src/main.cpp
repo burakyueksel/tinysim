@@ -16,17 +16,16 @@ int main()
     // Set Controls
     Control ctrl;
     // Get parameters
-    Parameters& params = Parameters::getInstance();
-    float timeEnd = 10.0;
-    float timeStep= 0.01;
+    droneParameters& params_drone = droneParameters::getInstance();
+    physicsParameters& params_phy = physicsParameters::getInstance();
 
-    int numSteps = timeEnd/timeStep;
+    int numSteps = params_phy.timeEnd/params_phy.timeStep;
 
     for (int step = 0; step < numSteps; ++step)
     {
-        double currentTime = step * timeStep;
+        double currentTime = step * params_phy.timeStep;
         std::cout << "Simulation Time: " << currentTime << " seconds" << std::endl;
-        std::cout << "Mass: " << params.mass << " kg" << std::endl;
+        std::cout << "Mass: " << params_drone.mass << " kg" << std::endl;
         /* STATES*/
         // get the translational states of each drone
         Eigen::Vector3d position = phy.getPosition();
@@ -41,7 +40,7 @@ int main()
         phy.setExternalForceBody(Eigen::Vector3d(0.0, 0.0, 0.0));
         // Update states
         // update all states
-        phy.updateState(timeStep);
+        phy.updateState(params_phy.timeStep);
         // OUTPUT TO THE TERMINAL
         std::cout   << " position (NED): "
                     << position.x() << ", "

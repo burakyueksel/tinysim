@@ -1,13 +1,12 @@
 #include "parameters.h"
 #include "physics.h"
-#include <math.h>
 
 RigidPhysics::RigidPhysics()
 {
-    Parameters& params = Parameters::getInstance();
+    droneParameters& params_drone = droneParameters::getInstance();
     // Initialize the member variables
     velocity.setZero();
-    position = params.initPos;
+    position = params_drone.initPos;
     angularVelocity.setZero();
     orientation.setIdentity();
     externalForceBody.setZero();
@@ -90,10 +89,11 @@ Eigen::Quaterniond angleAxisToQuaternion (const double& angle, const Eigen::Vect
 
 Eigen::Quaterniond eulerToQuaternion(double roll_deg, double pitch_deg, double yaw_deg)
 {
+    physicsParameters& params_phy = physicsParameters::getInstance();
     // Convert roll, pitch, and yaw angles to radians
-    double rollRad = roll_deg * M_PI / 180.0;
-    double pitchRad = pitch_deg * M_PI / 180.0;
-    double yawRad = yaw_deg * M_PI / 180.0;
+    double rollRad = roll_deg * params_phy.PI / 180.0;
+    double pitchRad = pitch_deg * params_phy.PI / 180.0;
+    double yawRad = yaw_deg * params_phy.PI / 180.0;
 
     // Calculate half angles
     double cosRollHalf = cos(rollRad / 2.0);
@@ -114,14 +114,14 @@ Eigen::Quaterniond eulerToQuaternion(double roll_deg, double pitch_deg, double y
 };
 
 void RigidPhysics::updateState(double timeStep) {
+    droneParameters& params_drone = droneParameters::getInstance();
+    physicsParameters& params_phy = physicsParameters::getInstance();
     // Update the drone's state based on dynamics
-    Parameters& params = Parameters::getInstance();
-
     // Update translational dynamics:
     // Translational dynamics are evolving in inertial frame
     // Compute translational acceleration
     // Compute gravity force (NED reference frame)
-    Eigen::Vector3d gravityForce(0.0, 0.0, 9.81 * params.mass);
+    Eigen::Vector3d gravityForce(0.0, 0.0, params_phy.gravity * params_drone.mass);
 
     // Get the orientation as rotation matrix
     Eigen::Matrix3d rotMat = quaternionToRotationMatrix(orientation);
@@ -130,7 +130,7 @@ void RigidPhysics::updateState(double timeStep) {
     Eigen::Vector3d netForce = rotMat * externalForceBody + gravityForce;
 
     // Compute acceleration
-    Eigen::Vector3d acceleration = netForce / params.mass;
+    Eigen::Vector3d acceleration = netForce / params_drone.mass;
     // Update velocity and position
     position = position + velocity * timeStep + 0.5 * acceleration * pow(timeStep,2) ;
     velocity += acceleration * timeStep;
@@ -138,9 +138,9 @@ void RigidPhysics::updateState(double timeStep) {
     // Update rotational dynamics:
     // Rotational dynamics are evolving in body frame
     // Compute angular momentum
-    Eigen::Vector3d angularMomentum = angularVelocity.cross(params.inertiaMatrix * angularVelocity);
+    Eigen::Vector3d angularMomentum = angularVelocity.cross(params_drone.inertiaMatrix * angularVelocity);
     // Calculate the angular acceleration
-    Eigen::Vector3d angularAcceleration  = params.inertiaMatrix.inverse() * (externalTorqueBody-angularMomentum);
+    Eigen::Vector3d angularAcceleration  = params_drone.inertiaMatrix.inverse() * (externalTorqueBody-angularMomentum);
     // Integrate the angular acceleration to update the angular velocity
     angularVelocity += angularAcceleration * timeStep;
     // Convert angular velocity to the time derivative of quaternion

@@ -60,10 +60,11 @@ struct altCtrlRefStates
     double accRef;
 };
 
-class Parameters
+// DRONE PARAMETERS
+class droneParameters
 {
 public:
-    static Parameters& getInstance();
+    static droneParameters& getInstance();
 
     DroneTypes::Type droneType;
     double mass;
@@ -77,7 +78,22 @@ public:
     attCtrlTiltPrioParameters attCtrlTiltPrio;
 
 private:
-    Parameters(); // Private constructor to enforce Singleton pattern
-    Parameters(const Parameters&) = delete;
-    Parameters& operator=(const Parameters&) = delete;
+    droneParameters(); // Private constructor to enforce Singleton pattern
+    droneParameters(const droneParameters&) = delete;
+    droneParameters& operator=(const droneParameters&) = delete;
+};
+
+// PHYSICS PARAMETERS
+class physicsParameters
+{
+public:
+    static physicsParameters& getInstance();
+    double gravity;
+    double timeStep;
+    double timeEnd;
+    double PI;
+private:
+    physicsParameters(); // Private constructor to enforce Singleton pattern
+    physicsParameters(const physicsParameters&) = delete;
+    physicsParameters& operator=(const physicsParameters&) = delete;
 };
