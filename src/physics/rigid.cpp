@@ -169,17 +169,22 @@ void RigidPhysics::setExternalForceBody(const Eigen::Vector3d& force) {
     externalForceBody = force;
 }
 
+// get 3d positions
 Eigen::Vector3d RigidPhysics::getPosition() const {
     return position;
 }
 
+// get 3d velocities
 Eigen::Vector3d RigidPhysics::getVelocity() const {
     return velocity;
 }
+
+// get quaternion that defines the rotation of the body w.r.t. inertial frame
 Eigen::Quaterniond RigidPhysics::getQuaternion() const {
     return orientation;
 }
 
+// get body frame rotational velocities
 Eigen::Vector3d RigidPhysics::getBodyRates() const {
     return angularVelocity;
 }

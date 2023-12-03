@@ -43,6 +43,16 @@ int main()
         // update all states
         phy.updateState(timeStep);
         // OUTPUT TO THE TERMINAL
+        std::cout   << " position (NED): "
+                    << position.x() << ", "
+                    << position.y() << ", "
+                    << position.z() << std::endl;
+        // Print the quaternion of each drone
+        std::cout   << " unit quaternion: "
+                    << quaternion.w() << ", "
+                    << quaternion.x() << ", "
+                    << quaternion.y() << ", "
+                    << quaternion.z() << std::endl;
         // Perform other simulation tasks
     }
 
