@@ -1,4 +1,5 @@
 #include "control.h"
+#include "parameters.h"
 
 // Attitude, tilt prioritizing quaternion based control
 Eigen::Vector3d Control::attTiltPrioControl(Eigen::Quaterniond quatDes, Eigen::Quaterniond quat, Eigen::Vector3d angVelDes_rps, Eigen::Vector3d angVel_rps, Eigen::Vector3d angVelDotEst_rps)

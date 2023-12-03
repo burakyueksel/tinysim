@@ -1,5 +1,4 @@
 #pragma once
-#include "parameters.h"
 #include <eigen3/Eigen/Dense> // Include Eigen library for vector and matrix operations
 
 class Control

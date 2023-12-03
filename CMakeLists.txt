@@ -2,16 +2,20 @@ cmake_minimum_required(VERSION 3.10)
 project(tinysim)
 
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Set the include directories
-include_directories(include)
+# Add the include directories
+include_directories(${CMAKE_SOURCE_DIR}/include)  # Assuming include directory is in the project root
+# You need to do this in case you want to put .h files next to the .cpp files:
+#include_directories(${CMAKE_SOURCE_DIR}/src/controls)  # Include control directory
+#include_directories(${CMAKE_SOURCE_DIR}/src/parameters)  # Include parameters directory
 
 # Specify the build directory
 set(BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
 
 # Add all source files in the src directory
 #file(GLOB SOURCES src/*.cpp)
-#file(GLOB CONTROL_SOURCES src/control/*.cpp)
+#file(GLOB CONTROL_SOURCES src/controls/*.cpp)
 #file(GLOB PARAMETER_SOURCES src/parameters/*.cpp)
 
 # Append the source files from the subdirectories to the main SOURCES variable
@@ -19,7 +23,7 @@ set(BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
 
 # Add all source files in the src directory
 file(GLOB SOURCES "src/*.cpp"
-                  "src/control/*.cpp"
+                  "src/controls/*.cpp"
                   "src/parameters/*.cpp")
 
 # Create the executable
