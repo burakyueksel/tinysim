@@ -3,7 +3,7 @@
 // Attitude, tilt prioritizing quaternion based control
 Eigen::Vector3d Control::attTiltPrioControl(Eigen::Quaterniond quatDes, Eigen::Quaterniond quat, Eigen::Vector3d angVelDes_rps, Eigen::Vector3d angVel_rps, Eigen::Vector3d angVelDotEst_rps)
 {
-    Parameters parameters;
+    Parameters& params = Parameters::getInstance();
     // source:https://www.flyingmachinearena.ethz.ch/wp-content/publications/2018/breTCST18.pdf
     // eq.13
     Eigen::Quaterniond quatError = quatDes * quat.inverse(); // assumption: eigen does the correct multiplication
@@ -37,11 +37,11 @@ Eigen::Vector3d Control::attTiltPrioControl(Eigen::Quaterniond quatDes, Eigen::Q
     quatErrYaw.y() = 0.0;
     quatErrYaw.z() = oneOverQuatErrRedNorm * quatError.z();
     // eq. 23
-    Eigen::Vector3d tauFF = parameters.inertiaMatrix*angVelDotEst_rps - (parameters.inertiaMatrix*angVel_rps).cross(angVel_rps);
+    Eigen::Vector3d tauFF = params.inertiaMatrix*angVelDotEst_rps - (params.inertiaMatrix*angVel_rps).cross(angVel_rps);
     // eq. 21
-    Eigen::Vector3d tauCtrl_Nm = parameters.attCtrlTiltPrio.KP * quatErrRed.vec() +
-                                 parameters.attCtrlTiltPrio.KP(2,2) * mySignum(quatError.w()) * quatErrYaw.vec() +
-                                 parameters.attCtrlTiltPrio.KD * angVelErr_rps +
+    Eigen::Vector3d tauCtrl_Nm = params.attCtrlTiltPrio.KP * quatErrRed.vec() +
+                                 params.attCtrlTiltPrio.KP(2,2) * mySignum(quatError.w()) * quatErrYaw.vec() +
+                                 params.attCtrlTiltPrio.KD * angVelErr_rps +
                                  tauFF;
     return tauCtrl_Nm;
 }

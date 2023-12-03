@@ -1,12 +1,8 @@
-/*
- * File: parameters.h
- * Author: Burak Yueksel
- * Date: 2023-12-02
- */
+// parameters.h
+
 #pragma once
 
 #include <eigen3/Eigen/Dense> // Include Eigen library for vector and matrix operations
-#include <vector>
 
 struct DroneTypes
 {
@@ -17,12 +13,6 @@ struct DroneTypes
         MC_OCTO,
         FW_MONO,
     };
-};
-
-struct altCtrlErrOutputs
-{
-    double controlThrust_N;
-    double accCmd_mps2;
 };
 
 struct pidParameters
@@ -36,7 +26,6 @@ struct attCtrlTiltPrioParameters
 {
     Eigen::Matrix3d KP;
     Eigen::Matrix3d KD;
-
 };
 
 struct linSysParameters
@@ -65,8 +54,11 @@ struct altCtrlRefStates
     double accRef;
 };
 
-struct Parameters
+class Parameters
 {
+public:
+    static Parameters& getInstance();
+
     DroneTypes::Type droneType;
     double mass;
     Eigen::Matrix3d inertiaMatrix;
@@ -77,4 +69,9 @@ struct Parameters
     linSysParameters altCtrlRefDyn;
     pidParameters altCtrlPID;
     attCtrlTiltPrioParameters attCtrlTiltPrio;
+
+private:
+    Parameters(); // Private constructor to enforce Singleton pattern
+    Parameters(const Parameters&) = delete;
+    Parameters& operator=(const Parameters&) = delete;
 };

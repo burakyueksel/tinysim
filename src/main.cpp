@@ -10,8 +10,10 @@
 
 int main()
 {
-    // Controls
+    // Set Controls
     Control ctrl;
+    // Get parameters
+    Parameters& params = Parameters::getInstance();
     float timeEnd = 10.0;
     float timeStep= 0.01;
 
@@ -21,6 +23,7 @@ int main()
     {
         double currentTime = step * timeStep;
         std::cout << "Simulation Time: " << currentTime << " seconds" << std::endl;
+        std::cout << "Mass: " << params.mass << " kg" << std::endl;
         /* ATTITUDE CONTROLLER */
         Eigen::Quaterniond quatDes (1.0, 0.0, 0.0, 0.0);
         Eigen::Quaterniond quaternion (1.0, 0.0, 0.0, 0.0);
