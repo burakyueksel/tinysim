@@ -12,8 +12,6 @@ int main()
 {
     // Controls
     Control ctrl;
-    //Parameters parameters;
-
     float timeEnd = 10.0;
     float timeStep= 0.01;
 

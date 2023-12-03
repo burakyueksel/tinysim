@@ -23,7 +23,7 @@ Parameters parameters
     .droneType = DroneTypes::MC_QUAD,
     // physical properties
     .mass = 1.0, // Set the mass for drone 1
-    .inertiaMatrix = Eigen::Matrix3d(
+    /*.inertiaMatrix = Eigen::Matrix3d(
                         1.0, 0.0, 0.0,
                         0.0, 2.0, 0.0,
                         0.0, 0.0, 3.0),
@@ -67,4 +67,5 @@ Parameters parameters
                               0.0, 2*parameters.inertiaMatrix.coeff(1,1)*damping_Y/timeConst_Y, 0.0,
                               0.0, 0.0, 2*parameters.inertiaMatrix.coeff(2,2)*damping_Z/timeConst_Z)
     }
+    */
 };

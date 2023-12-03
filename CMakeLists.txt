@@ -10,12 +10,17 @@ include_directories(include)
 set(BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
 
 # Add all source files in the src directory
-file(GLOB SOURCES src/*.cpp)
-file(GLOB CONTROL_SOURCES src/control/*.cpp)
-file(GLOB PARAMETER_SOURCES src/parameters/*.cpp)
+#file(GLOB SOURCES src/*.cpp)
+#file(GLOB CONTROL_SOURCES src/control/*.cpp)
+#file(GLOB PARAMETER_SOURCES src/parameters/*.cpp)
 
 # Append the source files from the subdirectories to the main SOURCES variable
-list(APPEND SOURCES ${CONTROL_SOURCES} ${PARAMETER_SOURCES})
+#list(APPEND SOURCES ${CONTROL_SOURCES} ${PARAMETER_SOURCES})
+
+# Add all source files in the src directory
+file(GLOB SOURCES "src/*.cpp"
+                  "src/control/*.cpp"
+                  "src/parameters/*.cpp")
 
 # Create the executable
 add_executable(tinysim ${SOURCES})
