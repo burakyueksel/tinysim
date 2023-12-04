@@ -1,5 +1,8 @@
+ /**
+ * @file main.cpp
+ * @brief main routine/loop of tinysim.
+ */
 /*
- * File: main.cpp
  * Author: Burak Yueksel
  * Date: 2023-12-02
  */

@@ -1,31 +1,40 @@
+ /**
+ * @file altPIDCtrl.h
+ * @brief Simple and basic PID Controller for the altitude channel.
+ *        2nd order reference dynamics and error controller for PID.
+ */
+/*
+ * Author: Burak Yueksel
+ * Date: 2023-12-03
+ */
 #include "controls.h"
 #include "parameters.h"
 #include "physics.h"
 
 // Altitude Ref Dynamics
-
+// Note: both ref and err ctrl are defined under Control class, so we can reach the private globals.
 altCtrlRefStates Control::altControlRefDyn(double zCmd, double timeStep_s)
 {
     droneParameters& params_drone = droneParameters::getInstance();
     // Compute the control input (acceleration)
-    double error = zCmd - g_altCtrlRefDynStates.posRef;
+    double error = zCmd - g_altCtrlRefDynStates.zRef;
     double timeConst = params_drone.altCtrlRefDyn.timeConst;
     double damping = params_drone.altCtrlRefDyn.damping;
-    double accNow = error *  timeConst * timeConst - 2.0 * damping * timeConst * g_altCtrlRefDynStates.velRef;
+    double accNow = error *  timeConst * timeConst - 2.0 * damping * timeConst * g_altCtrlRefDynStates.dzRef;
     // TODO: add acc limits
-    g_altCtrlRefDynStates.accRef = accNow;
+    g_altCtrlRefDynStates.ddzRef = accNow;
     // integrate to velocity now
-    g_altCtrlRefDynStates.velRef = g_altCtrlRefDynStates.velRef + g_altCtrlRefDynStates.accRef * timeStep_s;
+    g_altCtrlRefDynStates.dzRef = g_altCtrlRefDynStates.dzRef + g_altCtrlRefDynStates.ddzRef * timeStep_s;
     //TODO: add vel limits
     // integrate to position now
-    g_altCtrlRefDynStates.posRef = g_altCtrlRefDynStates.posRef + g_altCtrlRefDynStates.velRef*timeStep_s;
+    g_altCtrlRefDynStates.zRef = g_altCtrlRefDynStates.zRef + g_altCtrlRefDynStates.dzRef*timeStep_s;
 
     return g_altCtrlRefDynStates;
 }
 
 
 //  Altitude PID control
-altCtrlErrOutputs Control::altPidControl(double zDes_m, double z_m, double dzDes_mps, double dz_mps, Eigen::Quaterniond quaternion, double timeStep_s)
+altCtrlErrOutputs Control::altPidErrControl(double zDes_m, double z_m, double dzDes_mps, double dz_mps, Eigen::Quaterniond quaternion, double timeStep_s)
 {
     droneParameters& params_drone = droneParameters::getInstance(); // get drone parameters
     physicsParameters& params_phy = physicsParameters::getInstance(); // get physics/environment parameters
@@ -59,4 +68,15 @@ altCtrlErrOutputs Control::altPidControl(double zDes_m, double z_m, double dzDes
     //double controlThrust_N =   proportional + g_altIntegral + derivative;
 
     return outputs;
+}
+
+altCtrlErrOutputs Control::altPidControl(double zCmd, double z, double dz, Eigen::Quaterniond quaternion, double timeStep_s)
+{
+    Control ctrl;
+    // step command in height. Pass it through the 2nd order reference dynamics for smooth trajectories
+    altCtrlRefStates altRefStates = altControlRefDyn(zCmd, timeStep_s);
+    // follow the trajectories with a PID
+    altCtrlErrOutputs altCtrlOutputs = altPidErrControl(altRefStates.zRef, z, altRefStates.dzRef, dz, quaternion, timeStep_s);
+
+    return altCtrlOutputs;
 }

@@ -1,3 +1,12 @@
+ /**
+ * @file attTiltPrioCtrl.cpp
+ * @brief Quaternion based tilt prioritizing attitude error controller
+ *        source:https://www.flyingmachinearena.ethz.ch/wp-content/publications/2018/breTCST18.pdf
+ */
+/*
+ * Author: Burak Yueksel
+ * Date: 2023-12-02
+ */
 #include "controls.h"
 #include "parameters.h"
 
@@ -5,7 +14,6 @@
 Eigen::Vector3d Control::attTiltPrioControl(Eigen::Quaterniond quatDes, Eigen::Quaterniond quat, Eigen::Vector3d angVelDes_rps, Eigen::Vector3d angVel_rps, Eigen::Vector3d angVelDotEst_rps)
 {
     droneParameters& params_drone = droneParameters::getInstance();
-    // source:https://www.flyingmachinearena.ethz.ch/wp-content/publications/2018/breTCST18.pdf
     // eq.13
     Eigen::Quaterniond quatError = quatDes * quat.inverse(); // assumption: eigen does the correct multiplication
     // eq. 14

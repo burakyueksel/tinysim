@@ -1,5 +1,11 @@
-// parameters.cpp
-// parameters.cpp
+ /**
+ * @file parameters_drone.cpp
+ * @brief Parameters of a drone
+ */
+/*
+ * Author: Burak Yueksel
+ * Date: 2023-12-02
+ */
 
 #include "parameters.h"
 

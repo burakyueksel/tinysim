@@ -1,3 +1,12 @@
+ /**
+ * @file rigid.cpp
+ * @brief Rigid body physics evolving in 3D space, i.e. SE(3)
+ */
+/*
+ * Author: Burak Yueksel
+ * Date: 2023-12-02
+ */
+#include "parameters.h"
 #include "parameters.h"
 #include "physics.h"
 

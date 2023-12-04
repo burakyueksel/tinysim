@@ -24,9 +24,9 @@ struct posCtrlRefStates
 
 struct altCtrlRefStates
 {
-    double posRef;
-    double velRef;
-    double accRef;
+    double zRef;
+    double dzRef;
+    double ddzRef;
 };
 
 struct altCtrlErrOutputs
@@ -42,7 +42,9 @@ public:
      * @brief Control functions
      */
     altCtrlRefStates altControlRefDyn(double zCmd, double timeStep_s);
-    altCtrlErrOutputs altPidControl(double zDes_m, double z_m, double dzDes_mps, double dz_mps, Eigen::Quaterniond quaternion, double timeStep_s);
+    altCtrlErrOutputs altPidErrControl(double zDes_m, double z_m, double dzDes_mps, double dz_mps, Eigen::Quaterniond quaternion, double timeStep_s);
+    altCtrlErrOutputs altPidControl(double zCmd, double z, double dz, Eigen::Quaterniond quaternion, double timeStep_s);
+
     // tilt priorizing quaternion based attitude controller
     Eigen::Vector3d attTiltPrioControl(Eigen::Quaterniond quatDes, Eigen::Quaterniond quat, Eigen::Vector3d angVelDes_rps, Eigen::Vector3d angVel_rps, Eigen::Vector3d angVelDotEst_rps);
 

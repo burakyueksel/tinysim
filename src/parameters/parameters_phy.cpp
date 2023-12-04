@@ -1,3 +1,11 @@
+ /**
+ * @file parameters_phy.cpp
+ * @brief Physics and environment parameters
+ */
+/*
+ * Author: Burak Yueksel
+ * Date: 2023-12-02
+ */
 #include "parameters.h"
 
 // Physics aux parameters
