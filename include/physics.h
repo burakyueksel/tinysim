@@ -37,6 +37,9 @@ public:
     Eigen::Vector3d getBodyRates() const;
     Eigen::Quaterniond eulerToQuaternion(double roll_deg, double pitch_deg, double yaw_deg);
 
+    double quat2R33(const Eigen::Quaterniond& q);
+
+
 private:
     // States of the rigid body
     Eigen::Vector3d position;

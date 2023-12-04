@@ -40,26 +40,6 @@ struct linSysParameters
     double damping;
 };
 
-struct horizontalStates
-{
-    double x;
-    double y;
-};
-
-struct posCtrlRefStates
-{
-    horizontalStates posRef;
-    horizontalStates velRef;
-    horizontalStates accRef;
-};
-
-struct altCtrlRefStates
-{
-    double posRef;
-    double velRef;
-    double accRef;
-};
-
 // DRONE PARAMETERS
 class droneParameters
 {

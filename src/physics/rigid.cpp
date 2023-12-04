@@ -57,7 +57,7 @@ Eigen::Vector3d quat2RTe3(const Eigen::Quaterniond& q)
     return RTe3;
 }
 
-double quat2R33(const Eigen::Quaterniond& q)
+double RigidPhysics::quat2R33(const Eigen::Quaterniond& q)
 {
     // compute the (3,3)th element of the rotation matrix from quaternion
     Eigen::Matrix3d R = quaternionToRotationMatrix(q);
