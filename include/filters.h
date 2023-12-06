@@ -31,6 +31,12 @@ struct secondOrderSmoothFiltStates
     double ddx;
 };
 
+struct firstOrderSmoothFiltStates3d
+{
+    Eigen::Vector3d pos;
+    Eigen::Vector3d vel;
+};
+
 
 class Filter
 {
@@ -40,9 +46,11 @@ public:
      */
     firstOrderSmoothFiltStates firstOrderSmoothFilter(double input, double bw, double timeStep_s);
     secondOrderSmoothFiltStates secondOrderSmoothFilter(double input, double bw, double damping, double timeStep_s);
+    firstOrderSmoothFiltStates3d firstOrderSmoothFilter3d(Eigen::Vector3d input, double bw, double timeStep_s);
 
 
 private:
     firstOrderSmoothFiltStates g_firstOrderSmoothFiltStates;
     secondOrderSmoothFiltStates g_secondOrderSmoothFiltStates;
+    firstOrderSmoothFiltStates3d g_firstOrderSmoothFiltStates3d;
 };

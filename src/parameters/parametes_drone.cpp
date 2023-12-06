@@ -26,7 +26,10 @@ double damping_Z    = 1.0;
 
 droneParameters::droneParameters(): 
       droneType(DroneTypes::MC_QUAD),  // Initialize your parameters here
-      mass(1.0),
+      mass(1.0),    // kg
+      actBW(3.0),   // rad/s
+      indiOmegaBW(3.0), // rad/s
+      indiMuBW(3.0),    //rad/s
       // example: inertiaMatrix(Eigen::Matrix3d::Identity()),
       inertiaMatrix((Eigen::Matrix3d() << 1.0, 0.0, 0.0,
                                           0.0, 2.0, 0.0,

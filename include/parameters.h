@@ -48,6 +48,9 @@ public:
 
     DroneTypes::Type droneType;
     double mass;
+    double actBW;
+    double indiOmegaBW;
+    double indiMuBW;
     Eigen::Matrix3d inertiaMatrix;
     Eigen::Vector3d cogOffset;
     Eigen::Vector3d initPos;
