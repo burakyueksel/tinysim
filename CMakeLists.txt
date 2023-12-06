@@ -26,7 +26,8 @@ file(GLOB SOURCES "src/*.cpp"
                   "src/parameters/*.cpp"
                   "src/physics/*.cpp"
                   "src/controls/*.cpp"
-                  "src/filters/*.cpp")
+                  "src/filters/*.cpp"
+                  "src/geometry/*.cpp")
 
 # Create the executable
 add_executable(tinysim ${SOURCES})

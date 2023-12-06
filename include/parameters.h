@@ -74,9 +74,21 @@ public:
     double gravity;
     double timeStep;
     double timeEnd;
-    double PI;
 private:
     physicsParameters(); // Private constructor to enforce Singleton pattern
     physicsParameters(const physicsParameters&) = delete;
     physicsParameters& operator=(const physicsParameters&) = delete;
+};
+
+// GEOMETRY PARAMETERS
+
+class geometricParameters
+{
+public:
+    static geometricParameters& getInstance();
+    double PI;
+private:
+    geometricParameters(); // Private constructor to enforce Singleton pattern
+    geometricParameters(const geometricParameters&) = delete;
+    geometricParameters& operator=(const geometricParameters&) = delete;
 };

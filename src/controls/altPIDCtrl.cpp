@@ -10,6 +10,7 @@
 #include "controls.h"
 #include "parameters.h"
 #include "physics.h"
+#include "geometry.h"
 
 // Altitude Ref Dynamics
 // Note: both ref and err ctrl are defined under Control class, so we can reach the private globals.
@@ -38,7 +39,7 @@ altCtrlErrOutputs Control::altPidErrControl(double zDes_m, double z_m, double dz
 {
     droneParameters& params_drone = droneParameters::getInstance(); // get drone parameters
     physicsParameters& params_phy = physicsParameters::getInstance(); // get physics/environment parameters
-    RigidPhysics physics; // be able to use the functions defined under physics. TODO: Move trigonometric fcns to math or geometry folder.
+    Geometry geometry;
 
     altCtrlErrOutputs outputs;
     // error
@@ -60,7 +61,7 @@ altCtrlErrOutputs Control::altPidErrControl(double zDes_m, double z_m, double dz
 
     // Calculate the thrust for height control
     // Following lines will implement the correct thrust computation (assumption: thrust aligned with the body z axis)
-    double R33 = physics.quat2R33(quaternion);
+    double R33 = geometry.quat2R33(quaternion);
     outputs.accCmd_mps2     =   (params_phy.gravity + proportional + g_altPIDCtrlIntegral + derivative) / R33;
     outputs.controlThrust_N =   params_drone.mass * outputs.accCmd_mps2;
 

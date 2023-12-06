@@ -1,13 +1,4 @@
  /**
- * @file filters.h
- * @brief Filter library declerations
- */
-/*
- * Author: Burak Yueksel
- * Date: 2023-12-05
- */
-
- /**
  * @file controls.h
  * @brief Control library declerations
  */

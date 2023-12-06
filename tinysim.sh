@@ -8,8 +8,8 @@ fi
 # Run cmake
 cmake .
 
-# Run make
-make
+# Run make with 8 cores
+make -j8
 
 # Run the simulation
 ./build/tinysim
