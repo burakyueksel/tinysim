@@ -19,19 +19,19 @@ Eigen::Vector3d Control::attTiltPrioControl(Eigen::Quaterniond quatDes, Eigen::Q
     // eq. 14
     Eigen::Vector3d angVelErr_rps = angVelDes_rps - angVel_rps;
     // compute 1/sqrt(quat.w² + quat.z²)
-    double qNorm = quatError.w()*quatError.w() + quatError.z()*quatError.z();
+    double qzNorm_sqrt = sqrtf(quatError.w()*quatError.w() + quatError.z()*quatError.z());
     double oneOverQuatErrRedNorm;
     // in case quat isn not well defined
     // this happens in the following case as an example:
     // quat is the quaternion between a desired frame and the current frame
     // z axis of the desired frame is aligned exactly at the opposite direction of the z axis of the current frame
-    if (qNorm<1e-4)
+    if (qzNorm_sqrt<1e-6)
     {
-        oneOverQuatErrRedNorm = 1e-4; // a small number.
+        oneOverQuatErrRedNorm = 1e-6; // a small number.
     }
     else
     {
-        oneOverQuatErrRedNorm = 1/sqrtf(qNorm);
+        oneOverQuatErrRedNorm = 1/qzNorm_sqrt;
     }
     // eq. 18
     Eigen::Quaterniond quatErrRed;
