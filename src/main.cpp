@@ -14,6 +14,8 @@
 
 int main()
 {
+    // Open a file to store the logs
+    std::ofstream logFile("log.txt");
     // Set Physics
     RigidPhysics phy;
     // Set Controls
@@ -56,7 +58,15 @@ int main()
                     << quaternion.y() << ", "
                     << quaternion.z() << std::endl;
         // Perform other simulation tasks
+        // OUTPUT TO THE FILE
+        // Store the positions in the file
+        logFile << currentTime
+                    << " " << position.x() << " " << position.y() << " " << position.z()
+                    << " " << quaternion.w() << " " << quaternion.x() << " " << quaternion.y() << " " << quaternion.z()
+                    << "\n";
     }
+    // Close the output file
+    logFile.close();
 
     return 0;
 }
