@@ -41,7 +41,7 @@ void RigidPhysics::updateState(double timeStep) {
     Eigen::Vector3d netForce = rotMat * externalForceBody + gravityForce;
 
     // Compute acceleration
-    Eigen::Vector3d acceleration = netForce / params_drone.mass;
+    acceleration = netForce / params_drone.mass;
     // Update velocity and position
     position = position + velocity * timeStep + 0.5 * acceleration * pow(timeStep,2) ;
     velocity += acceleration * timeStep;
@@ -88,6 +88,11 @@ Eigen::Vector3d RigidPhysics::getPosition() const {
 // get 3d velocities
 Eigen::Vector3d RigidPhysics::getVelocity() const {
     return velocity;
+}
+
+// get 3d accelerations
+Eigen::Vector3d RigidPhysics::getAcceleration() const {
+    return acceleration;
 }
 
 // get quaternion that defines the rotation of the body w.r.t. inertial frame

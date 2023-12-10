@@ -33,6 +33,7 @@ public:
      */
     Eigen::Vector3d getPosition() const;
     Eigen::Vector3d getVelocity() const;
+    Eigen::Vector3d getAcceleration() const;
     Eigen::Quaterniond getQuaternion() const;
     Eigen::Vector3d getBodyRates() const;
     Eigen::Quaterniond eulerToQuaternion(double roll_deg, double pitch_deg, double yaw_deg);
@@ -44,6 +45,7 @@ private:
     // States of the rigid body
     Eigen::Vector3d position;
     Eigen::Vector3d velocity;
+    Eigen::Vector3d acceleration;
     Eigen::Vector3d angularVelocity; // Angular velocity as a member variable
     Eigen::Quaterniond orientation; // Orientation as a member variable
     Eigen::Vector3d externalTorqueBody; // External torque in body frame as a member variable

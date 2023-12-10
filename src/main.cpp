@@ -9,6 +9,7 @@
 #include "controls.h"
 #include "parameters.h"
 #include "physics.h"
+#include "sensors.h"
 #include <iostream>
 #include <fstream>
 
@@ -20,6 +21,9 @@ int main()
     RigidPhysics phy;
     // Set Controls
     Control ctrl;
+    // Set Sensors
+    Sensor sens;
+    Sensor::IMU imu;
     // Get parameters
     droneParameters& params_drone = droneParameters::getInstance();
     physicsParameters& params_phy = physicsParameters::getInstance();
@@ -32,12 +36,19 @@ int main()
         std::cout << "Simulation Time: " << currentTime << " seconds" << std::endl;
         std::cout << "Mass: " << params_drone.mass << " kg" << std::endl;
         /* STATES*/
-        // get the translational states of each drone
+        // get the physical true states of each drone
         Eigen::Vector3d position = phy.getPosition();
         Eigen::Vector3d velocity = phy.getVelocity();
+        Eigen::Vector3d acceleration = phy.getAcceleration();
         Eigen::Quaterniond quaternion = phy.getQuaternion();
-        Eigen::Vector3d angVel_prs = phy.getBodyRates();
+        Eigen::Vector3d angVel_rps = phy.getBodyRates();
         /* SENS */
+        // IMU
+        IMUStates imustates;
+        imustates = imu.measurementModel(acceleration, angVel_rps);
+        // GNSS
+        // RADAR
+        // LIDAR
         /* CONTROL*/
         //Eigen::Vector3d torqueCtrl = ctrl.attTiltPrioControl(quatDes, quaternion, angVelDes_rps, angVel_prs, angVelDotEst_rps);
         // set the external torques and forces

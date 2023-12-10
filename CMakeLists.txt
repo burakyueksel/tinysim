@@ -25,6 +25,7 @@ set(BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
 file(GLOB SOURCES "src/*.cpp"
                   "src/parameters/*.cpp"
                   "src/physics/*.cpp"
+                  "src/sensors/*.cpp"
                   "src/controls/*.cpp"
                   "src/filters/*.cpp"
                   "src/geometry/*.cpp")
