@@ -1,6 +1,6 @@
  /**
- * @file sensors.h
- * @brief Sensors library declerations
+ * @file imu.cpp
+ * @brief IMU sensor function bodies.
  */
 /*
  * Author: Burak Yueksel
@@ -23,12 +23,12 @@ IMUStates Sensor::IMU::measurementModel(Eigen::Vector3d acceleration, Eigen::Vec
     IMUStates imustates;
     // Simulate accelerometer measurements
     for (int i = 0; i < 3; ++i) {
-        imustates.acc[i] = generateNormalDistribution(acceleration[i], accel_noise_stddev_);
+        imustates.acc[i] = acceleration[i] + generateNormalDistribution(0.0, accel_noise_stddev_);
     }
 
     // Simulate gyroscope measurements
     for (int i = 0; i < 3; ++i) {
-        imustates.rotVel[i] = generateNormalDistribution(angular_velocity[i], gyro_noise_stddev_);
+        imustates.rotVel[i] = angular_velocity[i] + generateNormalDistribution(0.0, gyro_noise_stddev_);
     }
     return imustates;
 }
