@@ -24,6 +24,7 @@ int main()
     // Set Sensors
     Sensor sens;
     Sensor::IMU imu;
+    Sensor::Baro baro;
     // Get parameters
     droneParameters& params_drone = droneParameters::getInstance();
     physicsParameters& params_phy = physicsParameters::getInstance();
@@ -46,6 +47,9 @@ int main()
         // IMU
         IMUStates imustates;
         imustates = imu.measurementModel(acceleration, angVel_rps);
+        // BARO
+        BaroStates barostates;
+        barostates = baro.measurementModel(params_phy.TAmbient_C, -position[2]);
         // GNSS
         // RADAR
         // LIDAR

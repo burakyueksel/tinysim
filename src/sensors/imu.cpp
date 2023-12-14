@@ -22,12 +22,16 @@ IMUStates Sensor::IMU::measurementModel(Eigen::Vector3d acceleration, Eigen::Vec
 {
     IMUStates imustates;
     // Simulate accelerometer measurements
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 3; ++i)
+    {
+        // zero bias
         imustates.acc[i] = acceleration[i] + generateNormalDistribution(0.0, accel_noise_stddev_);
     }
 
     // Simulate gyroscope measurements
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 3; ++i)
+    {
+        // zero bias
         imustates.rotVel[i] = angular_velocity[i] + generateNormalDistribution(0.0, gyro_noise_stddev_);
     }
     return imustates;

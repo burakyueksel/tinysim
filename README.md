@@ -24,3 +24,9 @@ make
 ```console
 make clean_files
 ```
+
+### Plotting
+
+This simulator generates a log.txt file. Under /analyze you will find a python script for reading and plotting the data in it. For example:
+
+![Alt text](image.png)

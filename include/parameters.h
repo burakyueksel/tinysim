@@ -53,6 +53,7 @@ public:
     double indiMuBW;
     double imuAccStdev;
     double imuGyrStdev;
+    double baroPressureStdev;
     Eigen::Matrix3d inertiaMatrix;
     Eigen::Vector3d cogOffset;
     Eigen::Vector3d initPos;
@@ -76,6 +77,14 @@ public:
     double gravity;
     double timeStep;
     double timeEnd;
+    double R;  // Universal gas constant in J/(mol·K)
+    double L;  // temperature lapse rate (K/m) at P0 and T0
+    double airMolarMass;  // Molar mass of Earth's air in kg/mol
+    double P0; // Standard atmospheric pressure at sea level (Pa)
+    double T0; // Standard temperature at sea level in K
+    double T0CK; // Zero Celcius in Kelvin
+    double TAmbient_C; // Static outside temperature in Celcius (C). Note: it can be approximated with TAmbient_C = T0 - L * altitudeAboveSeaLevel.
+
 private:
     physicsParameters(); // Private constructor to enforce Singleton pattern
     physicsParameters(const physicsParameters&) = delete;

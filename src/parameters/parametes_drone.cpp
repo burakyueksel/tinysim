@@ -30,8 +30,9 @@ droneParameters::droneParameters():
       actBW(3.0),   // rad/s
       indiOmegaBW(3.0), // rad/s
       indiMuBW(3.0),    //rad/s
-      imuAccStdev (0.001),
+      imuAccStdev (0.01),
       imuGyrStdev(0.001),
+      baroPressureStdev(3.0), // standard deviation of noise (in Pa)
       // example: inertiaMatrix(Eigen::Matrix3d::Identity()),
       inertiaMatrix((Eigen::Matrix3d() << 1.0, 0.0, 0.0,
                                           0.0, 2.0, 0.0,
