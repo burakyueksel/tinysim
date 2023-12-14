@@ -29,4 +29,4 @@ make clean_files
 
 This simulator generates a log.txt file. Under /analyze you will find a python script for reading and plotting the data in it. For example:
 
-![Alt text](image.png)
+![image](https://github.com/burakyueksel/tinysim/assets/40430575/69bd08bb-b50a-42de-bdf3-ce49ef340380)
