@@ -54,6 +54,8 @@ int main()
         // RADAR
         // LIDAR
         /* CONTROL*/
+        // double zCmd = -10.0; // meaning 10 meters up
+        // altCtrlErrOutputs altCtrl = ctrl.altPidControl(zCmd, position.z(), velocity.z(), quaternion, params_phy.timeStep);
         //Eigen::Vector3d torqueCtrl = ctrl.attTiltPrioControl(quatDes, quaternion, angVelDes_rps, angVel_prs, angVelDotEst_rps);
         // set the external torques and forces
         phy.setExternalTorqueBody(Eigen::Vector3d(0.0, 0.0, 0.0));
@@ -66,6 +68,8 @@ int main()
                     << position.x() << ", "
                     << position.y() << ", "
                     << position.z() << std::endl;
+        std::cout   << " Baro altitude "
+                    << barostates.altitude << std::endl;
         // Print the quaternion of each drone
         std::cout   << " unit quaternion: "
                     << quaternion.w() << ", "
