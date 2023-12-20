@@ -19,9 +19,10 @@ altCtrlRefStates Control::altControlRefDyn(double zCmd, double timeStep_s)
     droneParameters& params_drone = droneParameters::getInstance();
     // Compute the control input (acceleration)
     double error = zCmd - g_altCtrlRefDynStates.zRef;
-    double timeConst = params_drone.altCtrlRefDyn.timeConst;
-    double damping = params_drone.altCtrlRefDyn.damping;
-    double accNow = error *  timeConst * timeConst - 2.0 * damping * timeConst * g_altCtrlRefDynStates.dzRef;
+    double Kp = params_drone.altCtrlRefDyn.Kp;
+    double Kd = params_drone.altCtrlRefDyn.Kd;
+    // reference velocity to step position command is not given, hence 0.
+    double accNow = Kp * error  - Kd * g_altCtrlRefDynStates.dzRef;
     // TODO: add acc limits
     g_altCtrlRefDynStates.ddzRef = accNow;
     // integrate to velocity now

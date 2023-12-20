@@ -34,10 +34,10 @@ struct attCtrlTiltPrioParameters
     Eigen::Matrix3d KD;
 };
 
-struct linSysParameters
+struct pdParameters
 {
-    double timeConst;
-    double damping;
+    double Kp;
+    double Kd;
 };
 
 // DRONE PARAMETERS
@@ -57,9 +57,9 @@ public:
     Eigen::Matrix3d inertiaMatrix;
     Eigen::Vector3d cogOffset;
     Eigen::Vector3d initPos;
-    linSysParameters posCtrlRefDyn;
+    pdParameters posCtrlRefDyn;
     pidParameters posCtrlPID;
-    linSysParameters altCtrlRefDyn;
+    pdParameters altCtrlRefDyn;
     pidParameters altCtrlPID;
     attCtrlTiltPrioParameters attCtrlTiltPrio;
 
