@@ -41,14 +41,17 @@ public:
     /**
      * @brief Control functions
      */
+    // alt ctrl
     altCtrlRefStates altControlRefDyn(double zCmd, double timeStep_s);
     altCtrlErrOutputs altPidErrControl(double zDes_m, double z_m, double dzDes_mps, double dz_mps, Eigen::Quaterniond quaternion, double timeStep_s);
     altCtrlErrOutputs altPidControl(double zCmd, double z, double dz, Eigen::Quaterniond quaternion, double timeStep_s);
+    // att ctrl
     Eigen::Vector3d attRateIndiCtrl(Eigen::Vector3d omega_rps, Eigen::Vector3d domega_des_rps, Eigen::Vector3d mu_Nm, double timeStep_s);
-
-    // tilt priorizing quaternion based attitude controller
     Eigen::Vector3d attTiltPrioControl(Eigen::Quaterniond quatDes, Eigen::Quaterniond quat, Eigen::Vector3d angVelDes_rps, Eigen::Vector3d angVel_rps, Eigen::Vector3d angVelDotEst_rps);
-
+    // pos ctrl
+    posCtrlRefStates posControlRefDyn(horizontalStates posCmd, double timeStep_s);
+    horizontalStates posCtrlErr(posCtrlRefStates posRefStates, Eigen::Vector3d position, Eigen::Vector3d velocity, double timeStep_s);
+    horizontalStates posPidControl(horizontalStates posCmd, Eigen::Vector3d position, Eigen::Vector3d velocity, double timeStep_s);
     /**
      * @brief Utility functions
      */

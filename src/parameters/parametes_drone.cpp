@@ -1,6 +1,6 @@
  /**
  * @file parameters_drone.cpp
- * @brief Parameters of a drone
+ * @brief Parameters of a drone (control, actuator, weight and balance, sensor data)
  */
 /*
  * Author: Burak Yueksel
