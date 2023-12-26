@@ -19,20 +19,20 @@ posCtrlRefStates Control::posControlRefDyn(horizontalStates posCmd, double timeS
     double Kd = params_drone.posCtrlRefDyn.Kd;
 
     // Compute the control input (acceleration)
-    double posErrorX = posCmd.x - g_posCtrlRefDynStates.posRef.x;
-    double posErrorY = posCmd.y - g_posCtrlRefDynStates.posRef.y;
+    double posErrorX = posCmd.x - g_posCtrlRefDynStates.posRef_m.x;
+    double posErrorY = posCmd.y - g_posCtrlRefDynStates.posRef_m.y;
 
     // reference velocity to step position command is not given, hence 0.
-    g_posCtrlRefDynStates.accRef.x = posErrorX *  Kp - Kd * g_posCtrlRefDynStates.velRef.x;
-    g_posCtrlRefDynStates.accRef.y = posErrorY *  Kp - Kd * g_posCtrlRefDynStates.velRef.y;
+    g_posCtrlRefDynStates.accRef_mps2.x = posErrorX *  Kp - Kd * g_posCtrlRefDynStates.velRef_mps.x;
+    g_posCtrlRefDynStates.accRef_mps2.y = posErrorY *  Kp - Kd * g_posCtrlRefDynStates.velRef_mps.y;
     // TODO: add acc limits
     // integrate to velocity now
-    g_posCtrlRefDynStates.velRef.x = g_posCtrlRefDynStates.velRef.x + g_posCtrlRefDynStates.accRef.x * timeStep_s;
-    g_posCtrlRefDynStates.velRef.y = g_posCtrlRefDynStates.velRef.y + g_posCtrlRefDynStates.accRef.y * timeStep_s;
+    g_posCtrlRefDynStates.velRef_mps.x = g_posCtrlRefDynStates.velRef_mps.x + g_posCtrlRefDynStates.accRef_mps2.x * timeStep_s;
+    g_posCtrlRefDynStates.velRef_mps.y = g_posCtrlRefDynStates.velRef_mps.y + g_posCtrlRefDynStates.accRef_mps2.y * timeStep_s;
     // TODO: add vel limits
     // integrate to position now
-    g_posCtrlRefDynStates.posRef.x = g_posCtrlRefDynStates.posRef.x + g_posCtrlRefDynStates.velRef.x * timeStep_s;
-    g_posCtrlRefDynStates.posRef.y = g_posCtrlRefDynStates.posRef.y + g_posCtrlRefDynStates.velRef.y * timeStep_s;
+    g_posCtrlRefDynStates.posRef_m.x = g_posCtrlRefDynStates.posRef_m.x + g_posCtrlRefDynStates.velRef_mps.x * timeStep_s;
+    g_posCtrlRefDynStates.posRef_m.y = g_posCtrlRefDynStates.posRef_m.y + g_posCtrlRefDynStates.velRef_mps.y * timeStep_s;
 
     return g_posCtrlRefDynStates;
 }
@@ -44,12 +44,12 @@ horizontalStates Control::posCtrlErr(posCtrlRefStates posRefStates, Eigen::Vecto
     droneParameters& params_drone = droneParameters::getInstance();
 
     // error
-    double errorX = posRefStates.posRef.x - position[0];
-    double errorY = posRefStates.posRef.x - position[1];
+    double errorX = posRefStates.posRef_m.x - position[0];
+    double errorY = posRefStates.posRef_m.x - position[1];
 
     // d_error
-    double derrorX = posRefStates.velRef.x - velocity[0];
-    double derrorY = posRefStates.velRef.y - velocity[1];
+    double derrorX = posRefStates.velRef_mps.x - velocity[0];
+    double derrorY = posRefStates.velRef_mps.y - velocity[1];
 
     // Proportional term
     double proportionalX = params_drone.posCtrlPID.Kp * errorX;
@@ -67,8 +67,8 @@ horizontalStates Control::posCtrlErr(posCtrlRefStates posRefStates, Eigen::Vecto
 
     // Calculate the desired accelerations in x and y axis
     horizontalStates accXYRef;
-    accXYRef.x = posRefStates.accRef.x + proportionalX + g_horizontalPosIntegral.x + derivativeX;
-    accXYRef.y = posRefStates.accRef.y + proportionalY + g_horizontalPosIntegral.y + derivativeY;
+    accXYRef.x = posRefStates.accRef_mps2.x + proportionalX + g_horizontalPosIntegral.x + derivativeX;
+    accXYRef.y = posRefStates.accRef_mps2.y + proportionalY + g_horizontalPosIntegral.y + derivativeY;
 
     return accXYRef;
 }

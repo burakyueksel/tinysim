@@ -17,16 +17,16 @@ struct horizontalStates
 
 struct posCtrlRefStates
 {
-    horizontalStates posRef;
-    horizontalStates velRef;
-    horizontalStates accRef;
+    horizontalStates posRef_m;
+    horizontalStates velRef_mps;
+    horizontalStates accRef_mps2;
 };
 
 struct altCtrlRefStates
 {
-    double zRef;
-    double dzRef;
-    double ddzRef;
+    double zRef_m;
+    double dzRef_mps;
+    double ddzRef_mps2;
 };
 
 struct altCtrlErrOutputs
@@ -42,16 +42,16 @@ public:
      * @brief Control functions
      */
     // alt ctrl
-    altCtrlRefStates altControlRefDyn(double zCmd, double timeStep_s);
+    altCtrlRefStates altControlRefDyn(double zCmd_m, double timeStep_s);
     altCtrlErrOutputs altPidErrControl(double zDes_m, double z_m, double dzDes_mps, double dz_mps, Eigen::Quaterniond quaternion, double timeStep_s);
-    altCtrlErrOutputs altPidControl(double zCmd, double z, double dz, Eigen::Quaterniond quaternion, double timeStep_s);
+    altCtrlErrOutputs altPidControl(double zCmd_m, double z_m, double dz_mps, Eigen::Quaterniond quaternion, double timeStep_s);
     // att ctrl
     Eigen::Vector3d attRateIndiCtrl(Eigen::Vector3d omega_rps, Eigen::Vector3d domega_des_rps, Eigen::Vector3d mu_Nm, double timeStep_s);
-    Eigen::Vector3d attTiltPrioControl(Eigen::Quaterniond quatDes, Eigen::Quaterniond quat, Eigen::Vector3d angVelDes_rps, Eigen::Vector3d angVel_rps, Eigen::Vector3d angVelDotEst_rps);
+    Eigen::Vector3d attTiltPrioControl(Eigen::Quaterniond quatDes, Eigen::Quaterniond quaternion, Eigen::Vector3d angVelDes_rps, Eigen::Vector3d angVel_rps, Eigen::Vector3d angVelDotEst_rps2);
     // pos ctrl
-    posCtrlRefStates posControlRefDyn(horizontalStates posCmd, double timeStep_s);
-    horizontalStates posCtrlErr(posCtrlRefStates posRefStates, Eigen::Vector3d position, Eigen::Vector3d velocity, double timeStep_s);
-    horizontalStates posPidControl(horizontalStates posCmd, Eigen::Vector3d position, Eigen::Vector3d velocity, double timeStep_s);
+    posCtrlRefStates posControlRefDyn(horizontalStates posCmd_m, double timeStep_s);
+    horizontalStates posCtrlErr(posCtrlRefStates posRefStates, Eigen::Vector3d position_m, Eigen::Vector3d velocity_mps, double timeStep_s);
+    horizontalStates posPidControl(horizontalStates posCmd_m, Eigen::Vector3d position_m, Eigen::Vector3d velocity_mps, double timeStep_s);
     /**
      * @brief Utility functions
      */

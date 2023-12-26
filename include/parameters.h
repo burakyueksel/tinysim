@@ -47,7 +47,7 @@ public:
     static droneParameters& getInstance();
 
     DroneTypes::Type droneType;
-    double mass;
+    double mass_kg;
     double actBW;
     double indiOmegaBW;
     double indiMuBW;

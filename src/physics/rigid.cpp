@@ -32,7 +32,7 @@ void RigidPhysics::updateState(double timeStep) {
     // Translational dynamics are evolving in inertial frame
     // Compute translational acceleration
     // Compute gravity force (NED reference frame)
-    Eigen::Vector3d gravityForce(0.0, 0.0, params_phy.gravity * params_drone.mass);
+    Eigen::Vector3d gravityForce(0.0, 0.0, params_phy.gravity * params_drone.mass_kg);
 
     // Get the orientation as rotation matrix
     Eigen::Matrix3d rotMat = geometry.quaternionToRotationMatrix(orientation);
@@ -41,7 +41,7 @@ void RigidPhysics::updateState(double timeStep) {
     Eigen::Vector3d netForce = rotMat * externalForceBody + gravityForce;
 
     // Compute acceleration
-    acceleration = netForce / params_drone.mass;
+    acceleration = netForce / params_drone.mass_kg;
     // Update velocity and position
     position = position + velocity * timeStep + 0.5 * acceleration * pow(timeStep,2) ;
     velocity += acceleration * timeStep;

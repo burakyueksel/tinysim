@@ -72,13 +72,13 @@ double Geometry::quat2R33(const Eigen::Quaterniond& q)
 /*
 Implements eq 1 of https://www.flyingmachinearena.ethz.ch/wp-content/publications/2018/breTCST18.pdf
 */
-Eigen::Quaterniond Geometry::angleAxisToQuaternion (const double& angle, const Eigen::Vector3d vector)
+Eigen::Quaterniond Geometry::angleAxisToQuaternion (const double& angle_rad, const Eigen::Vector3d vector)
 {
     // define unit quaternion
     Eigen::Quaterniond quat;
     // trigonometric constants
-    double ca2 = cos(angle/2);
-    double sa2 = sin(angle/2);
+    double ca2 = cos(angle_rad/2);
+    double sa2 = sin(angle_rad/2);
     quat.w() = ca2;
     quat.x() = vector.x()*sa2;
     quat.y() = vector.y()*sa2;

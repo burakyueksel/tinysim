@@ -21,7 +21,7 @@ public:
     Eigen::Matrix3d quaternionToRotationMatrix(const Eigen::Quaterniond& q);
     Eigen::Vector3d quat2Re3(const Eigen::Quaterniond& q);
     Eigen::Vector3d quat2RTe3(const Eigen::Quaterniond& q);
-    Eigen::Quaterniond angleAxisToQuaternion (const double& angle, const Eigen::Vector3d vector);
+    Eigen::Quaterniond angleAxisToQuaternion (const double& angle_rad, const Eigen::Vector3d vector);
     Eigen::Quaterniond eulerToQuaternion(double roll_deg, double pitch_deg, double yaw_deg);
 
 

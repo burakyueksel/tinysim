@@ -35,7 +35,7 @@ int main()
     {
         double currentTime = step * params_phy.timeStep;
         std::cout << "Simulation Time: " << currentTime << " seconds" << std::endl;
-        std::cout << "Mass: " << params_drone.mass << " kg" << std::endl;
+        std::cout << "Mass: " << params_drone.mass_kg << " kg" << std::endl;
         /* STATES*/
         // get the physical true states of each drone
         Eigen::Vector3d position = phy.getPosition();

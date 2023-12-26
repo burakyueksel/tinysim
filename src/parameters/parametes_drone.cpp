@@ -85,7 +85,7 @@ double posRefXi    = 1.0; // critically damped
 
 droneParameters::droneParameters(): 
       droneType(DroneTypes::MC_QUAD),  // Initialize your parameters here
-      mass(1.0),    // kg
+      mass_kg(1.0),    // kg
       actBW(3.0),   // rad/s
       indiOmegaBW(3.0), // rad/s
       indiMuBW(3.0),    //rad/s
