@@ -69,7 +69,7 @@ int main()
                     << position.y() << ", "
                     << position.z() << std::endl;
         std::cout   << " Baro altitude "
-                    << barostates.altitude << std::endl;
+                    << barostates.altitude_m << std::endl;
         // Print the quaternion of each drone
         std::cout   << " unit quaternion: "
                     << quaternion.w() << ", "

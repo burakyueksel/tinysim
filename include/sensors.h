@@ -13,15 +13,15 @@
 
 struct IMUStates
 {
-    Eigen::Vector3d acc;
-    Eigen::Vector3d rotVel;
+    Eigen::Vector3d acc_mps2;
+    Eigen::Vector3d rotVel_rps;
 };
 
 struct BaroStates
 {
-  double temperature;  // temperature (in C)
-  double pressure;     // pressure (in Pa)
-  double altitude;     // altitude (in m)
+  double temperature_c;  // temperature (in C)
+  double pressure_pa;     // pressure (in Pa)
+  double altitude_m;     // altitude (in m)
 };
 
 class Sensor

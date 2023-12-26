@@ -32,13 +32,13 @@ BaroStates Sensor::Baro::measurementModel(double temperature, double trueAltitud
   physicsParameters& params_phy = physicsParameters::getInstance();
   droneParameters& params_drone = droneParameters::getInstance();
 
-  barometer.temperature = temperature;
+  barometer.temperature_c = temperature;
 
   // Compute pressure using the barometric formula. Zero bias.
-  barometer.pressure = 0 + generateNormalDistribution(0.0, pressure_noise_stddev_) + params_phy.P0 * pow(1 + params_phy.L * (trueAltitude-0) / (temperature + params_phy.T0CK), -1.0 * (params_phy.gravity * params_phy.airMolarMass) / (params_phy.R * params_phy.L));
+  barometer.pressure_pa = 0 + generateNormalDistribution(0.0, pressure_noise_stddev_) + params_phy.P0 * pow(1 + params_phy.L * (trueAltitude-0) / (temperature + params_phy.T0CK), -1.0 * (params_phy.gravity * params_phy.airMolarMass) / (params_phy.R * params_phy.L));
 
   // compute altitude from pressure and temperature
-  barometer.altitude = computeAltitude(barometer.pressure, barometer.temperature);
+  barometer.altitude_m = computeAltitude(barometer.pressure_pa, barometer.temperature_c);
 
 
   return barometer;

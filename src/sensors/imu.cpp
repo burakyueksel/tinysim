@@ -25,14 +25,14 @@ IMUStates Sensor::IMU::measurementModel(Eigen::Vector3d acceleration, Eigen::Vec
     for (int i = 0; i < 3; ++i)
     {
         // zero bias
-        imustates.acc[i] = acceleration[i] + generateNormalDistribution(0.0, accel_noise_stddev_);
+        imustates.acc_mps2[i] = acceleration[i] + generateNormalDistribution(0.0, accel_noise_stddev_);
     }
 
     // Simulate gyroscope measurements
     for (int i = 0; i < 3; ++i)
     {
         // zero bias
-        imustates.rotVel[i] = angular_velocity[i] + generateNormalDistribution(0.0, gyro_noise_stddev_);
+        imustates.rotVel_rps[i] = angular_velocity[i] + generateNormalDistribution(0.0, gyro_noise_stddev_);
     }
     return imustates;
 }
