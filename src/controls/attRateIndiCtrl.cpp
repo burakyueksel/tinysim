@@ -12,7 +12,7 @@
 #include "parameters.h"
 
 // Attitude, tilt prioritizing quaternion based control
-Eigen::Vector3d Control::attRateIndiCtrl(Eigen::Vector3d omega_rps, Eigen::Vector3d domega_des_rps, Eigen::Vector3d mu_achieved_Nm, double timeStep_s)
+Eigen::Vector3f Control::attRateIndiCtrl(Eigen::Vector3f omega_rps, Eigen::Vector3f domega_des_rps, Eigen::Vector3f mu_achieved_Nm, float timeStep_s)
 {
     // set the filters
     Filter omegaFilt;
@@ -27,10 +27,10 @@ Eigen::Vector3d Control::attRateIndiCtrl(Eigen::Vector3d omega_rps, Eigen::Vecto
     mu_filt_states = muFilt.firstOrderSmoothFilter3d(mu_achieved_Nm, params_drone.indiMuBW, timeStep_s);
 
     // delta nu: increment in state
-    Eigen::Vector3d dNu = domega_des_rps - omega_filt_states.vel;
+    Eigen::Vector3f dNu = domega_des_rps - omega_filt_states.vel;
 
     // increment in moment, and then integration
-    Eigen::Vector3d mu_demand_Nm = mu_filt_states.pos + params_drone.inertiaMatrix * dNu;
+    Eigen::Vector3f mu_demand_Nm = mu_filt_states.pos + params_drone.inertiaMatrix * dNu;
 
     // return demanded moments.
     return mu_demand_Nm;

@@ -14,15 +14,15 @@
 
 // Altitude Ref Dynamics
 // Note: both ref and err ctrl are defined under Control class, so we can reach the private globals.
-altCtrlRefStates Control::altControlRefDyn(double zCmd_m, double timeStep_s)
+altCtrlRefStates Control::altControlRefDyn(float zCmd_m, float timeStep_s)
 {
     droneParameters& params_drone = droneParameters::getInstance();
     // Compute the control input (acceleration)
-    double error = zCmd_m - g_altCtrlRefDynStates.zRef_m;
-    double Kp = params_drone.altCtrlRefDyn.Kp;
-    double Kd = params_drone.altCtrlRefDyn.Kd;
+    float error = zCmd_m - g_altCtrlRefDynStates.zRef_m;
+    float Kp = params_drone.altCtrlRefDyn.Kp;
+    float Kd = params_drone.altCtrlRefDyn.Kd;
     // reference velocity to step position command is not given, hence 0.
-    double accNow = Kp * error  - Kd * g_altCtrlRefDynStates.dzRef_mps;
+    float accNow = Kp * error  - Kd * g_altCtrlRefDynStates.dzRef_mps;
     // TODO: add acc limits
     g_altCtrlRefDynStates.ddzRef_mps2 = accNow;
     // integrate to velocity now
@@ -36,7 +36,7 @@ altCtrlRefStates Control::altControlRefDyn(double zCmd_m, double timeStep_s)
 
 
 //  Altitude PID control
-altCtrlErrOutputs Control::altPidErrControl(double zDes_m, double z_m, double dzDes_mps, double dz_mps, Eigen::Quaterniond quaternion, double timeStep_s)
+altCtrlErrOutputs Control::altPidErrControl(float zDes_m, float z_m, float dzDes_mps, float dz_mps, Eigen::Quaternionf quaternion, float timeStep_s)
 {
     droneParameters& params_drone = droneParameters::getInstance(); // get drone parameters
     physicsParameters& params_phy = physicsParameters::getInstance(); // get physics/environment parameters
@@ -44,13 +44,13 @@ altCtrlErrOutputs Control::altPidErrControl(double zDes_m, double z_m, double dz
 
     altCtrlErrOutputs outputs;
     // error
-    double error = zDes_m - z_m;
+    float error = zDes_m - z_m;
 
     // d_error
-    double d_error = dzDes_mps - dz_mps;
+    float d_error = dzDes_mps - dz_mps;
 
     // Proportional term
-    double proportional = params_drone.altCtrlPID.Kp * error;
+    float proportional = params_drone.altCtrlPID.Kp * error;
 
     // Integral term
     g_altPIDCtrlIntegral += params_drone.altCtrlPID.Ki * error * timeStep_s;
@@ -58,21 +58,21 @@ altCtrlErrOutputs Control::altPidErrControl(double zDes_m, double z_m, double dz
     // todo: add proper anti-windup
 
     // Derivative term
-    double derivative = params_drone.altCtrlPID.Kd * d_error;
+    float derivative = params_drone.altCtrlPID.Kd * d_error;
 
     // Calculate the thrust for height control
     // Following lines will implement the correct thrust computation (assumption: thrust aligned with the body z axis)
-    double R33 = geometry.quat2R33(quaternion);
+    float R33 = geometry.quat2R33(quaternion);
     outputs.accCmd_mps2     =   (params_phy.gravity + proportional + g_altPIDCtrlIntegral + derivative) / R33;
     outputs.controlThrust_N =   params_drone.mass_kg * outputs.accCmd_mps2;
 
     // Following lines implements generic PID, which will perform very well if you stick to the parametrization I gave in parameter.cpp.
-    //double controlThrust_N =   proportional + g_altIntegral + derivative;
+    //float controlThrust_N =   proportional + g_altIntegral + derivative;
 
     return outputs;
 }
 
-altCtrlErrOutputs Control::altPidControl(double zCmd_m, double z_m, double dz_mps, Eigen::Quaterniond quaternion, double timeStep_s)
+altCtrlErrOutputs Control::altPidControl(float zCmd_m, float z_m, float dz_mps, Eigen::Quaternionf quaternion, float timeStep_s)
 {
     Control ctrl;
     // step command in height. Pass it through the 2nd order reference dynamics for smooth trajectories

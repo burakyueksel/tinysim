@@ -11,8 +11,8 @@
 
 struct horizontalStates
 {
-    double x;
-    double y;
+    float x;
+    float y;
 };
 
 struct posCtrlRefStates
@@ -24,15 +24,15 @@ struct posCtrlRefStates
 
 struct altCtrlRefStates
 {
-    double zRef_m;
-    double dzRef_mps;
-    double ddzRef_mps2;
+    float zRef_m;
+    float dzRef_mps;
+    float ddzRef_mps2;
 };
 
 struct altCtrlErrOutputs
 {
-    double controlThrust_N;
-    double accCmd_mps2;
+    float controlThrust_N;
+    float accCmd_mps2;
 };
 
 class Control
@@ -42,16 +42,16 @@ public:
      * @brief Control functions
      */
     // alt ctrl
-    altCtrlRefStates altControlRefDyn(double zCmd_m, double timeStep_s);
-    altCtrlErrOutputs altPidErrControl(double zDes_m, double z_m, double dzDes_mps, double dz_mps, Eigen::Quaterniond quaternion, double timeStep_s);
-    altCtrlErrOutputs altPidControl(double zCmd_m, double z_m, double dz_mps, Eigen::Quaterniond quaternion, double timeStep_s);
+    altCtrlRefStates altControlRefDyn(float zCmd_m, float timeStep_s);
+    altCtrlErrOutputs altPidErrControl(float zDes_m, float z_m, float dzDes_mps, float dz_mps, Eigen::Quaternionf quaternion, float timeStep_s);
+    altCtrlErrOutputs altPidControl(float zCmd_m, float z_m, float dz_mps, Eigen::Quaternionf quaternion, float timeStep_s);
     // att ctrl
-    Eigen::Vector3d attRateIndiCtrl(Eigen::Vector3d omega_rps, Eigen::Vector3d domega_des_rps, Eigen::Vector3d mu_Nm, double timeStep_s);
-    Eigen::Vector3d attTiltPrioControl(Eigen::Quaterniond quatDes, Eigen::Quaterniond quaternion, Eigen::Vector3d angVelDes_rps, Eigen::Vector3d angVel_rps, Eigen::Vector3d angVelDotEst_rps2);
+    Eigen::Vector3f attRateIndiCtrl(Eigen::Vector3f omega_rps, Eigen::Vector3f domega_des_rps, Eigen::Vector3f mu_Nm, float timeStep_s);
+    Eigen::Vector3f attTiltPrioControl(Eigen::Quaternionf quatDes, Eigen::Quaternionf quaternion, Eigen::Vector3f angVelDes_rps, Eigen::Vector3f angVel_rps, Eigen::Vector3f angVelDotEst_rps2);
     // pos ctrl
-    posCtrlRefStates posControlRefDyn(horizontalStates posCmd_m, double timeStep_s);
-    horizontalStates posCtrlErr(posCtrlRefStates posRefStates, Eigen::Vector3d position_m, Eigen::Vector3d velocity_mps, double timeStep_s);
-    horizontalStates posPidControl(horizontalStates posCmd_m, Eigen::Vector3d position_m, Eigen::Vector3d velocity_mps, double timeStep_s);
+    posCtrlRefStates posControlRefDyn(horizontalStates posCmd_m, float timeStep_s);
+    horizontalStates posCtrlErr(posCtrlRefStates posRefStates, Eigen::Vector3f position_m, Eigen::Vector3f velocity_mps, float timeStep_s);
+    horizontalStates posPidControl(horizontalStates posCmd_m, Eigen::Vector3f position_m, Eigen::Vector3f velocity_mps, float timeStep_s);
     /**
      * @brief Utility functions
      */
@@ -61,7 +61,7 @@ public:
         return (value > T(0)) - (value < T(0));
     }
 private:
-    double g_altPIDCtrlIntegral;
+    float g_altPIDCtrlIntegral;
     horizontalStates g_horizontalPosIntegral;
     posCtrlRefStates g_posCtrlRefDynStates;
     altCtrlRefStates g_altCtrlRefDynStates;

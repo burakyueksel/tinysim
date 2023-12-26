@@ -16,13 +16,13 @@ public:
     /**
      * @brief Geometry class
      */
-    double quat2R33(const Eigen::Quaterniond& q);
-    Eigen::Vector3d quaternionToEulerAngles(const Eigen::Quaterniond& q);
-    Eigen::Matrix3d quaternionToRotationMatrix(const Eigen::Quaterniond& q);
-    Eigen::Vector3d quat2Re3(const Eigen::Quaterniond& q);
-    Eigen::Vector3d quat2RTe3(const Eigen::Quaterniond& q);
-    Eigen::Quaterniond angleAxisToQuaternion (const double& angle_rad, const Eigen::Vector3d vector);
-    Eigen::Quaterniond eulerToQuaternion(double roll_deg, double pitch_deg, double yaw_deg);
+    float quat2R33(const Eigen::Quaternionf& q);
+    Eigen::Vector3f quaternionToEulerAngles(const Eigen::Quaternionf& q);
+    Eigen::Matrix3f quaternionToRotationMatrix(const Eigen::Quaternionf& q);
+    Eigen::Vector3f quat2Re3(const Eigen::Quaternionf& q);
+    Eigen::Vector3f quat2RTe3(const Eigen::Quaternionf& q);
+    Eigen::Quaternionf angleAxisToQuaternion (const float& angle_rad, const Eigen::Vector3f vector);
+    Eigen::Quaternionf eulerToQuaternion(float roll_deg, float pitch_deg, float yaw_deg);
 
 
 

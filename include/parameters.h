@@ -23,21 +23,21 @@ struct DroneTypes
 
 struct pidParameters
 {
-    double Kp;
-    double Kd;
-    double Ki;
+    float Kp;
+    float Kd;
+    float Ki;
 };
 
 struct attCtrlTiltPrioParameters
 {
-    Eigen::Matrix3d KP;
-    Eigen::Matrix3d KD;
+    Eigen::Matrix3f KP;
+    Eigen::Matrix3f KD;
 };
 
 struct pdParameters
 {
-    double Kp;
-    double Kd;
+    float Kp;
+    float Kd;
 };
 
 // DRONE PARAMETERS
@@ -47,16 +47,16 @@ public:
     static droneParameters& getInstance();
 
     DroneTypes::Type droneType;
-    double mass_kg;
-    double actBW;
-    double indiOmegaBW;
-    double indiMuBW;
-    double imuAccStdev;
-    double imuGyrStdev;
-    double baroPressureStdev;
-    Eigen::Matrix3d inertiaMatrix;
-    Eigen::Vector3d cogOffset;
-    Eigen::Vector3d initPos;
+    float mass_kg;
+    float actBW;
+    float indiOmegaBW;
+    float indiMuBW;
+    float imuAccStdev;
+    float imuGyrStdev;
+    float baroPressureStdev;
+    Eigen::Matrix3f inertiaMatrix;
+    Eigen::Vector3f cogOffset;
+    Eigen::Vector3f initPos;
     pdParameters posCtrlRefDyn;
     pidParameters posCtrlPID;
     pdParameters altCtrlRefDyn;
@@ -74,16 +74,16 @@ class physicsParameters
 {
 public:
     static physicsParameters& getInstance();
-    double gravity;
-    double timeStep;
-    double timeEnd;
-    double R;  // Universal gas constant in J/(mol·K)
-    double L;  // temperature lapse rate (K/m) at P0 and T0
-    double airMolarMass;  // Molar mass of Earth's air in kg/mol
-    double P0; // Standard atmospheric pressure at sea level (Pa)
-    double T0; // Standard temperature at sea level in K
-    double T0CK; // Zero Celcius in Kelvin
-    double TAmbient_C; // Static outside temperature in Celcius (C). Note: it can be approximated with TAmbient_C = T0 - L * altitudeAboveSeaLevel.
+    float gravity;
+    float timeStep;
+    float timeEnd;
+    float R;  // Universal gas constant in J/(mol·K)
+    float L;  // temperature lapse rate (K/m) at P0 and T0
+    float airMolarMass;  // Molar mass of Earth's air in kg/mol
+    float P0; // Standard atmospheric pressure at sea level (Pa)
+    float T0; // Standard temperature at sea level in K
+    float T0CK; // Zero Celcius in Kelvin
+    float TAmbient_C; // Static outside temperature in Celcius (C). Note: it can be approximated with TAmbient_C = T0 - L * altitudeAboveSeaLevel.
 
 private:
     physicsParameters(); // Private constructor to enforce Singleton pattern
@@ -97,7 +97,7 @@ class geometricParameters
 {
 public:
     static geometricParameters& getInstance();
-    double PI;
+    float PI;
 private:
     geometricParameters(); // Private constructor to enforce Singleton pattern
     geometricParameters(const geometricParameters&) = delete;

@@ -12,15 +12,15 @@
 
 // Position Ref Dynamics
 // Note: both ref and err ctrl are defined under Control class, so we can reach the private globals.
-posCtrlRefStates Control::posControlRefDyn(horizontalStates posCmd, double timeStep_s)
+posCtrlRefStates Control::posControlRefDyn(horizontalStates posCmd, float timeStep_s)
 {
     droneParameters& params_drone = droneParameters::getInstance();
-    double Kp = params_drone.posCtrlRefDyn.Kp;
-    double Kd = params_drone.posCtrlRefDyn.Kd;
+    float Kp = params_drone.posCtrlRefDyn.Kp;
+    float Kd = params_drone.posCtrlRefDyn.Kd;
 
     // Compute the control input (acceleration)
-    double posErrorX = posCmd.x - g_posCtrlRefDynStates.posRef_m.x;
-    double posErrorY = posCmd.y - g_posCtrlRefDynStates.posRef_m.y;
+    float posErrorX = posCmd.x - g_posCtrlRefDynStates.posRef_m.x;
+    float posErrorY = posCmd.y - g_posCtrlRefDynStates.posRef_m.y;
 
     // reference velocity to step position command is not given, hence 0.
     g_posCtrlRefDynStates.accRef_mps2.x = posErrorX *  Kp - Kd * g_posCtrlRefDynStates.velRef_mps.x;
@@ -39,21 +39,21 @@ posCtrlRefStates Control::posControlRefDyn(horizontalStates posCmd, double timeS
 
 
 // Position Error Dynamics
-horizontalStates Control::posCtrlErr(posCtrlRefStates posRefStates, Eigen::Vector3d position, Eigen::Vector3d velocity, double timeStep_s)
+horizontalStates Control::posCtrlErr(posCtrlRefStates posRefStates, Eigen::Vector3f position, Eigen::Vector3f velocity, float timeStep_s)
 {
     droneParameters& params_drone = droneParameters::getInstance();
 
     // error
-    double errorX = posRefStates.posRef_m.x - position[0];
-    double errorY = posRefStates.posRef_m.x - position[1];
+    float errorX = posRefStates.posRef_m.x - position[0];
+    float errorY = posRefStates.posRef_m.x - position[1];
 
     // d_error
-    double derrorX = posRefStates.velRef_mps.x - velocity[0];
-    double derrorY = posRefStates.velRef_mps.y - velocity[1];
+    float derrorX = posRefStates.velRef_mps.x - velocity[0];
+    float derrorY = posRefStates.velRef_mps.y - velocity[1];
 
     // Proportional term
-    double proportionalX = params_drone.posCtrlPID.Kp * errorX;
-    double proportionalY = params_drone.posCtrlPID.Kp * errorY;
+    float proportionalX = params_drone.posCtrlPID.Kp * errorX;
+    float proportionalY = params_drone.posCtrlPID.Kp * errorY;
 
     // Integral term
     g_horizontalPosIntegral.x += params_drone.posCtrlPID.Ki * errorX * timeStep_s;
@@ -62,8 +62,8 @@ horizontalStates Control::posCtrlErr(posCtrlRefStates posRefStates, Eigen::Vecto
     // todo: add proper anti-windup
 
     // Derivative term
-    double derivativeX = params_drone.posCtrlPID.Kd * derrorX;
-    double derivativeY = params_drone.posCtrlPID.Kd * derrorY;
+    float derivativeX = params_drone.posCtrlPID.Kd * derrorX;
+    float derivativeY = params_drone.posCtrlPID.Kd * derrorY;
 
     // Calculate the desired accelerations in x and y axis
     horizontalStates accXYRef;
@@ -73,7 +73,7 @@ horizontalStates Control::posCtrlErr(posCtrlRefStates posRefStates, Eigen::Vecto
     return accXYRef;
 }
 
-horizontalStates Control::posPidControl(horizontalStates posCmd, Eigen::Vector3d position, Eigen::Vector3d velocity, double timeStep_s)
+horizontalStates Control::posPidControl(horizontalStates posCmd, Eigen::Vector3f position, Eigen::Vector3f velocity, float timeStep_s)
 {
     Control ctrl;
     // step command in height. Pass it through the 2nd order reference dynamics for smooth trajectories

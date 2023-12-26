@@ -11,21 +11,21 @@
 
 struct firstOrderSmoothFiltStates
 {
-    double x;
-    double dx;
+    float x;
+    float dx;
 };
 
 struct secondOrderSmoothFiltStates
 {
-    double x;
-    double dx;
-    double ddx;
+    float x;
+    float dx;
+    float ddx;
 };
 
 struct firstOrderSmoothFiltStates3d
 {
-    Eigen::Vector3d pos;
-    Eigen::Vector3d vel;
+    Eigen::Vector3f pos;
+    Eigen::Vector3f vel;
 };
 
 
@@ -35,9 +35,9 @@ public:
     /**
      * @brief Filter functions
      */
-    firstOrderSmoothFiltStates firstOrderSmoothFilter(double input, double bw, double timeStep_s);
-    secondOrderSmoothFiltStates secondOrderSmoothFilter(double input, double bw, double damping, double timeStep_s);
-    firstOrderSmoothFiltStates3d firstOrderSmoothFilter3d(Eigen::Vector3d input, double bw, double timeStep_s);
+    firstOrderSmoothFiltStates firstOrderSmoothFilter(float input, float bw, float timeStep_s);
+    secondOrderSmoothFiltStates secondOrderSmoothFilter(float input, float bw, float damping, float timeStep_s);
+    firstOrderSmoothFiltStates3d firstOrderSmoothFilter3d(Eigen::Vector3f input, float bw, float timeStep_s);
 
 
 private:

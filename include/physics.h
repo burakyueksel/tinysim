@@ -23,33 +23,33 @@ public:
      *
      * @param timeStep The time step for the state update.
      */
-    void updateState(double timeStep);
-    void setExternalForceBody(const Eigen::Vector3d& force); // Set the value of externalForceBody
-    void setExternalTorqueBody(const Eigen::Vector3d& torque); // Set the value of externalTorqueBody
+    void updateState(float timeStep);
+    void setExternalForceBody(const Eigen::Vector3f& force); // Set the value of externalForceBody
+    void setExternalTorqueBody(const Eigen::Vector3f& torque); // Set the value of externalTorqueBody
     /**
      * Gets the ID of the drone.
      *
      * @return The ID of the drone.
      */
-    Eigen::Vector3d getPosition() const;
-    Eigen::Vector3d getVelocity() const;
-    Eigen::Vector3d getAcceleration() const;
-    Eigen::Quaterniond getQuaternion() const;
-    Eigen::Vector3d getBodyRates() const;
-    Eigen::Quaterniond eulerToQuaternion(double roll_deg, double pitch_deg, double yaw_deg);
+    Eigen::Vector3f getPosition() const;
+    Eigen::Vector3f getVelocity() const;
+    Eigen::Vector3f getAcceleration() const;
+    Eigen::Quaternionf getQuaternion() const;
+    Eigen::Vector3f getBodyRates() const;
+    Eigen::Quaternionf eulerToQuaternion(float roll_deg, float pitch_deg, float yaw_deg);
 
-    double quat2R33(const Eigen::Quaterniond& q);
+    float quat2R33(const Eigen::Quaternionf& q);
 
 
 private:
     // States of the rigid body
-    Eigen::Vector3d position;
-    Eigen::Vector3d velocity;
-    Eigen::Vector3d acceleration;
-    Eigen::Vector3d angularVelocity; // Angular velocity as a member variable
-    Eigen::Quaterniond orientation; // Orientation as a member variable
-    Eigen::Vector3d externalTorqueBody; // External torque in body frame as a member variable
-    Eigen::Vector3d externalForceBody; // External force in body frame as a member variable
+    Eigen::Vector3f position;
+    Eigen::Vector3f velocity;
+    Eigen::Vector3f acceleration;
+    Eigen::Vector3f angularVelocity; // Angular velocity as a member variable
+    Eigen::Quaternionf orientation; // Orientation as a member variable
+    Eigen::Vector3f externalTorqueBody; // External torque in body frame as a member variable
+    Eigen::Vector3f externalForceBody; // External force in body frame as a member variable
     // Add other relevant private member variables
 
     // Define other relevant private member variables

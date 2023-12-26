@@ -13,15 +13,15 @@
 
 struct IMUStates
 {
-    Eigen::Vector3d acc_mps2;
-    Eigen::Vector3d rotVel_rps;
+    Eigen::Vector3f acc_mps2;
+    Eigen::Vector3f rotVel_rps;
 };
 
 struct BaroStates
 {
-  double temperature_c;  // temperature (in C)
-  double pressure_pa;     // pressure (in Pa)
-  double altitude_m;     // altitude (in m)
+  float temperature_c;  // temperature (in C)
+  float pressure_pa;     // pressure (in Pa)
+  float altitude_m;     // altitude (in m)
 };
 
 class Sensor
@@ -38,16 +38,16 @@ public:
          * @brief IMU class
          */
         IMU(); // init
-        IMUStates measurementModel(Eigen::Vector3d acceleration, Eigen::Vector3d angular_velocity);
+        IMUStates measurementModel(Eigen::Vector3f acceleration, Eigen::Vector3f angular_velocity);
     private:
         IMUStates imustates;
         // Standard deviations for sensor noise
-        double accel_noise_stddev_;
-        double gyro_noise_stddev_;
+        float accel_noise_stddev_;
+        float gyro_noise_stddev_;
         // Generate random numbers from a normal distribution
-        double generateNormalDistribution(double mean, double stddev)
+        float generateNormalDistribution(float mean, float stddev)
         {
-            std::normal_distribution<double> distribution(mean, stddev);
+            std::normal_distribution<float> distribution(mean, stddev);
             return distribution(random_generator_);
         }
         // Random number generator
@@ -61,15 +61,15 @@ public:
          * @brief IMU class
          */
         Baro(); // init
-        BaroStates measurementModel(double temperature, double trueAltitude);
+        BaroStates measurementModel(float temperature, float trueAltitude);
     private:
         BaroStates barostates;
         // Standard deviations for sensor noise
-        double pressure_noise_stddev_;
+        float pressure_noise_stddev_;
         // Generate random numbers from a normal distribution
-        double generateNormalDistribution(double mean, double stddev)
+        float generateNormalDistribution(float mean, float stddev)
         {
-            std::normal_distribution<double> distribution(mean, stddev);
+            std::normal_distribution<float> distribution(mean, stddev);
             return distribution(random_generator_);
         }
         // Random number generator

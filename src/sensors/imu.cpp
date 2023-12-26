@@ -18,7 +18,7 @@ Sensor::IMU::IMU()
     random_generator_.seed(std::random_device()());
 }
 
-IMUStates Sensor::IMU::measurementModel(Eigen::Vector3d acceleration, Eigen::Vector3d angular_velocity)
+IMUStates Sensor::IMU::measurementModel(Eigen::Vector3f acceleration, Eigen::Vector3f angular_velocity)
 {
     IMUStates imustates;
     // Simulate accelerometer measurements

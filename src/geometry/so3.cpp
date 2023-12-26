@@ -10,12 +10,12 @@
 #include "geometry.h"
 #include "parameters.h"
 
-Eigen::Vector3d Geometry::quaternionToEulerAngles(const Eigen::Quaterniond& q)
+Eigen::Vector3f Geometry::quaternionToEulerAngles(const Eigen::Quaternionf& q)
 {
     // Convert quaternion to rotation matrix
-    Eigen::Matrix3d rotationMatrix = q.normalized().toRotationMatrix();
+    Eigen::Matrix3f rotationMatrix = q.normalized().toRotationMatrix();
     // Define Euler angle vector
-    Eigen::Vector3d eulerAngles;
+    Eigen::Vector3f eulerAngles;
 
     // Extract roll, pitch, and yaw angles from rotation matrix
     eulerAngles.x() = atan2(rotationMatrix(2, 1), rotationMatrix(2, 2));
@@ -25,45 +25,45 @@ Eigen::Vector3d Geometry::quaternionToEulerAngles(const Eigen::Quaterniond& q)
     return eulerAngles;
 }
 
-Eigen::Matrix3d Geometry::quaternionToRotationMatrix(const Eigen::Quaterniond& q)
+Eigen::Matrix3f Geometry::quaternionToRotationMatrix(const Eigen::Quaternionf& q)
 {
     // Convert quaternion to rotation matrix
     // This rotation represents the orientation of the body frame w.r.t. an inertial frame.
     // Meaning, it can left multiply a vector represented in body frame, to bring it to the inertial frame
-    Eigen::Matrix3d rotationMatrix = q.normalized().toRotationMatrix();
+    Eigen::Matrix3f rotationMatrix = q.normalized().toRotationMatrix();
 
     return rotationMatrix;
 }
 
-Eigen::Vector3d Geometry::quat2Re3(const Eigen::Quaterniond& q)
+Eigen::Vector3f Geometry::quat2Re3(const Eigen::Quaternionf& q)
 {
     Geometry geometry;
     // Compute Re3, that is the third column of the rotation matrix (from body to inertial frame)
-    Eigen::Matrix3d R = geometry.quaternionToRotationMatrix(q);
-    Eigen::Vector3d Re3 = R.col(2);
+    Eigen::Matrix3f R = geometry.quaternionToRotationMatrix(q);
+    Eigen::Vector3f Re3 = R.col(2);
 
     return Re3;
 }
 
-Eigen::Vector3d Geometry::quat2RTe3(const Eigen::Quaterniond& q)
+Eigen::Vector3f Geometry::quat2RTe3(const Eigen::Quaternionf& q)
 {
     Geometry geometry;
     // Compute R^Te3, that is the third column of the transpose of the rotation matrix (from inertial to body frame)
-    Eigen::Matrix3d R = geometry.quaternionToRotationMatrix(q);
-    Eigen::Matrix3d RT = R.transpose();
-    Eigen::Vector3d RTe3 = RT.col(2);
+    Eigen::Matrix3f R = geometry.quaternionToRotationMatrix(q);
+    Eigen::Matrix3f RT = R.transpose();
+    Eigen::Vector3f RTe3 = RT.col(2);
 
     return RTe3;
 }
 
-double Geometry::quat2R33(const Eigen::Quaterniond& q)
+float Geometry::quat2R33(const Eigen::Quaternionf& q)
 {
     Geometry geometry;
     // compute the (3,3)th element of the rotation matrix from quaternion
-    Eigen::Matrix3d R = geometry.quaternionToRotationMatrix(q);
-    double minThreshold = 1e-4;
+    Eigen::Matrix3f R = geometry.quaternionToRotationMatrix(q);
+    float minThreshold = 1e-4;
     // protect it for very small numbers (we tend to use this value for division)
-    double R33 = std::abs(R.coeff(2, 2)) < minThreshold ? minThreshold : R.coeff(2, 2);
+    float R33 = std::abs(R.coeff(2, 2)) < minThreshold ? minThreshold : R.coeff(2, 2);
 
     return R33;
 }
@@ -72,13 +72,13 @@ double Geometry::quat2R33(const Eigen::Quaterniond& q)
 /*
 Implements eq 1 of https://www.flyingmachinearena.ethz.ch/wp-content/publications/2018/breTCST18.pdf
 */
-Eigen::Quaterniond Geometry::angleAxisToQuaternion (const double& angle_rad, const Eigen::Vector3d vector)
+Eigen::Quaternionf Geometry::angleAxisToQuaternion (const float& angle_rad, const Eigen::Vector3f vector)
 {
     // define unit quaternion
-    Eigen::Quaterniond quat;
+    Eigen::Quaternionf quat;
     // trigonometric constants
-    double ca2 = cos(angle_rad/2);
-    double sa2 = sin(angle_rad/2);
+    float ca2 = cos(angle_rad/2);
+    float sa2 = sin(angle_rad/2);
     quat.w() = ca2;
     quat.x() = vector.x()*sa2;
     quat.y() = vector.y()*sa2;
@@ -87,28 +87,28 @@ Eigen::Quaterniond Geometry::angleAxisToQuaternion (const double& angle_rad, con
     return quat;
 }
 
-Eigen::Quaterniond Geometry::eulerToQuaternion(double roll_deg, double pitch_deg, double yaw_deg)
+Eigen::Quaternionf Geometry::eulerToQuaternion(float roll_deg, float pitch_deg, float yaw_deg)
 {
     geometricParameters& params_geometric = geometricParameters::getInstance();
     // Convert roll, pitch, and yaw angles to radians
-    double rollRad = roll_deg * params_geometric.PI / 180.0;
-    double pitchRad = pitch_deg * params_geometric.PI / 180.0;
-    double yawRad = yaw_deg * params_geometric.PI / 180.0;
+    float rollRad = roll_deg * params_geometric.PI / 180.0;
+    float pitchRad = pitch_deg * params_geometric.PI / 180.0;
+    float yawRad = yaw_deg * params_geometric.PI / 180.0;
 
     // Calculate half angles
-    double cosRollHalf = cos(rollRad / 2.0);
-    double sinRollHalf = sin(rollRad / 2.0);
-    double cosPitchHalf = cos(pitchRad / 2.0);
-    double sinPitchHalf = sin(pitchRad / 2.0);
-    double cosYawHalf = cos(yawRad / 2.0);
-    double sinYawHalf = sin(yawRad / 2.0);
+    float cosRollHalf = cos(rollRad / 2.0);
+    float sinRollHalf = sin(rollRad / 2.0);
+    float cosPitchHalf = cos(pitchRad / 2.0);
+    float sinPitchHalf = sin(pitchRad / 2.0);
+    float cosYawHalf = cos(yawRad / 2.0);
+    float sinYawHalf = sin(yawRad / 2.0);
 
     // Compute quaternion components
-    double w = cosRollHalf * cosPitchHalf * cosYawHalf + sinRollHalf * sinPitchHalf * sinYawHalf;
-    double x = sinRollHalf * cosPitchHalf * cosYawHalf - cosRollHalf * sinPitchHalf * sinYawHalf;
-    double y = cosRollHalf * sinPitchHalf * cosYawHalf + sinRollHalf * cosPitchHalf * sinYawHalf;
-    double z = cosRollHalf * cosPitchHalf * sinYawHalf - sinRollHalf * sinPitchHalf * cosYawHalf;
+    float w = cosRollHalf * cosPitchHalf * cosYawHalf + sinRollHalf * sinPitchHalf * sinYawHalf;
+    float x = sinRollHalf * cosPitchHalf * cosYawHalf - cosRollHalf * sinPitchHalf * sinYawHalf;
+    float y = cosRollHalf * sinPitchHalf * cosYawHalf + sinRollHalf * cosPitchHalf * sinYawHalf;
+    float z = cosRollHalf * cosPitchHalf * sinYawHalf - sinRollHalf * sinPitchHalf * cosYawHalf;
 
     // Return the quaternion
-    return Eigen::Quaterniond(w, x, y, z);
+    return Eigen::Quaternionf(w, x, y, z);
 };

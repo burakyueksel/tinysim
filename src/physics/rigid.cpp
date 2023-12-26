@@ -23,7 +23,7 @@ RigidPhysics::RigidPhysics()
     externalTorqueBody.setZero();
 }
 
-void RigidPhysics::updateState(double timeStep) {
+void RigidPhysics::updateState(float timeStep) {
     Geometry geometry;
     droneParameters& params_drone = droneParameters::getInstance();
     physicsParameters& params_phy = physicsParameters::getInstance();
@@ -32,13 +32,13 @@ void RigidPhysics::updateState(double timeStep) {
     // Translational dynamics are evolving in inertial frame
     // Compute translational acceleration
     // Compute gravity force (NED reference frame)
-    Eigen::Vector3d gravityForce(0.0, 0.0, params_phy.gravity * params_drone.mass_kg);
+    Eigen::Vector3f gravityForce(0.0, 0.0, params_phy.gravity * params_drone.mass_kg);
 
     // Get the orientation as rotation matrix
-    Eigen::Matrix3d rotMat = geometry.quaternionToRotationMatrix(orientation);
+    Eigen::Matrix3f rotMat = geometry.quaternionToRotationMatrix(orientation);
 
     // Compute net force in inertial frame
-    Eigen::Vector3d netForce = rotMat * externalForceBody + gravityForce;
+    Eigen::Vector3f netForce = rotMat * externalForceBody + gravityForce;
 
     // Compute acceleration
     acceleration = netForce / params_drone.mass_kg;
@@ -49,15 +49,15 @@ void RigidPhysics::updateState(double timeStep) {
     // Update rotational dynamics:
     // Rotational dynamics are evolving in body frame
     // Compute angular momentum
-    Eigen::Vector3d angularMomentum = angularVelocity.cross(params_drone.inertiaMatrix * angularVelocity);
+    Eigen::Vector3f angularMomentum = angularVelocity.cross(params_drone.inertiaMatrix * angularVelocity);
     // Calculate the angular acceleration
-    Eigen::Vector3d angularAcceleration  = params_drone.inertiaMatrix.inverse() * (externalTorqueBody-angularMomentum);
+    Eigen::Vector3f angularAcceleration  = params_drone.inertiaMatrix.inverse() * (externalTorqueBody-angularMomentum);
     // Integrate the angular acceleration to update the angular velocity
     angularVelocity += angularAcceleration * timeStep;
     // Convert angular velocity to the time derivative of quaternion
     // source: https://ahrs.readthedocs.io/en/latest/filters/angular.html
     // source: https://github.com/burakyueksel/physics/blob/eeba843fe20e5fd4e2d5d2d3d9608ed038bfb069/src/physics.c#L93
-    Eigen::Quaterniond orientationDot;
+    Eigen::Quaternionf orientationDot;
     orientationDot.w() = -0.5  * (angularVelocity.x() * orientation.x() + angularVelocity.y() * orientation.y() + angularVelocity.z() * orientation.z());
     orientationDot.x() =  0.5  * (angularVelocity.x() * orientation.w() + angularVelocity.z() * orientation.y() - angularVelocity.y() * orientation.z());
     orientationDot.y() =  0.5  * (angularVelocity.y() * orientation.w() - angularVelocity.z() * orientation.x() + angularVelocity.x() * orientation.z());
@@ -71,36 +71,36 @@ void RigidPhysics::updateState(double timeStep) {
 }
 
 // external torques: control torques, disturbance torques, etc
-void RigidPhysics::setExternalTorqueBody(const Eigen::Vector3d& torque) {
+void RigidPhysics::setExternalTorqueBody(const Eigen::Vector3f& torque) {
     externalTorqueBody = torque;
 }
 
 // external forces: control forces, disturbance forces, etc
-void RigidPhysics::setExternalForceBody(const Eigen::Vector3d& force) {
+void RigidPhysics::setExternalForceBody(const Eigen::Vector3f& force) {
     externalForceBody = force;
 }
 
 // get 3d positions
-Eigen::Vector3d RigidPhysics::getPosition() const {
+Eigen::Vector3f RigidPhysics::getPosition() const {
     return position;
 }
 
 // get 3d velocities
-Eigen::Vector3d RigidPhysics::getVelocity() const {
+Eigen::Vector3f RigidPhysics::getVelocity() const {
     return velocity;
 }
 
 // get 3d accelerations
-Eigen::Vector3d RigidPhysics::getAcceleration() const {
+Eigen::Vector3f RigidPhysics::getAcceleration() const {
     return acceleration;
 }
 
 // get quaternion that defines the rotation of the body w.r.t. inertial frame
-Eigen::Quaterniond RigidPhysics::getQuaternion() const {
+Eigen::Quaternionf RigidPhysics::getQuaternion() const {
     return orientation;
 }
 
 // get body frame rotational velocities
-Eigen::Vector3d RigidPhysics::getBodyRates() const {
+Eigen::Vector3f RigidPhysics::getBodyRates() const {
     return angularVelocity;
 }

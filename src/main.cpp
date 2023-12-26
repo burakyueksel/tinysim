@@ -33,16 +33,16 @@ int main()
 
     for (int step = 0; step < numSteps; ++step)
     {
-        double currentTime = step * params_phy.timeStep;
+        float currentTime = step * params_phy.timeStep;
         std::cout << "Simulation Time: " << currentTime << " seconds" << std::endl;
         std::cout << "Mass: " << params_drone.mass_kg << " kg" << std::endl;
         /* STATES*/
         // get the physical true states of each drone
-        Eigen::Vector3d position = phy.getPosition();
-        Eigen::Vector3d velocity = phy.getVelocity();
-        Eigen::Vector3d acceleration = phy.getAcceleration();
-        Eigen::Quaterniond quaternion = phy.getQuaternion();
-        Eigen::Vector3d angVel_rps = phy.getBodyRates();
+        Eigen::Vector3f position = phy.getPosition();
+        Eigen::Vector3f velocity = phy.getVelocity();
+        Eigen::Vector3f acceleration = phy.getAcceleration();
+        Eigen::Quaternionf quaternion = phy.getQuaternion();
+        Eigen::Vector3f angVel_rps = phy.getBodyRates();
         /* SENS */
         // IMU
         IMUStates imustates;
@@ -54,12 +54,12 @@ int main()
         // RADAR
         // LIDAR
         /* CONTROL*/
-        // double zCmd = -10.0; // meaning 10 meters up
+        // float zCmd = -10.0; // meaning 10 meters up
         // altCtrlErrOutputs altCtrl = ctrl.altPidControl(zCmd, position.z(), velocity.z(), quaternion, params_phy.timeStep);
-        //Eigen::Vector3d torqueCtrl = ctrl.attTiltPrioControl(quatDes, quaternion, angVelDes_rps, angVel_prs, angVelDotEst_rps);
+        //Eigen::Vector3f torqueCtrl = ctrl.attTiltPrioControl(quatDes, quaternion, angVelDes_rps, angVel_prs, angVelDotEst_rps);
         // set the external torques and forces
-        phy.setExternalTorqueBody(Eigen::Vector3d(0.0, 0.0, 0.0));
-        phy.setExternalForceBody(Eigen::Vector3d(0.0, 0.0, 0.0));
+        phy.setExternalTorqueBody(Eigen::Vector3f(0.0, 0.0, 0.0));
+        phy.setExternalForceBody(Eigen::Vector3f(0.0, 0.0, 0.0));
         // Update states
         // update all states
         phy.updateState(params_phy.timeStep);
