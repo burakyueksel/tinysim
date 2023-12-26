@@ -38,7 +38,7 @@ set_target_properties(tinysim PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${BUILD_DIR}
 )
 
-# Clean rule
+# Clean rule. This only make sense if you are not keeping it all under a specific folder.
 add_custom_target(clean_files
     COMMAND ${CMAKE_COMMAND} -E remove_directory ${BUILD_DIR}
     COMMAND ${CMAKE_COMMAND} -E remove ${CMAKE_BINARY_DIR}/CMakeCache.txt
