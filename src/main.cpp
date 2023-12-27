@@ -29,11 +29,11 @@ int main()
     droneParameters& params_drone = droneParameters::getInstance();
     physicsParameters& params_phy = physicsParameters::getInstance();
 
-    int numSteps = params_phy.timeEnd/params_phy.timeStep;
+    int numSteps = params_phy.timeEnd_s/params_phy.timeStep_s;
 
     for (int step = 0; step < numSteps; ++step)
     {
-        float currentTime = step * params_phy.timeStep;
+        float currentTime = step * params_phy.timeStep_s;
         std::cout << "Simulation Time: " << currentTime << " seconds" << std::endl;
         std::cout << "Mass: " << params_drone.mass_kg << " kg" << std::endl;
         /* STATES*/
@@ -55,14 +55,14 @@ int main()
         // LIDAR
         /* CONTROL*/
         // float zCmd = -10.0; // meaning 10 meters up
-        // altCtrlErrOutputs altCtrl = ctrl.altPidControl(zCmd, position.z(), velocity.z(), quaternion, params_phy.timeStep);
+        // altCtrlErrOutputs altCtrl = ctrl.altPidControl(zCmd, position.z(), velocity.z(), quaternion, params_phy.timeStep_s);
         //Eigen::Vector3f torqueCtrl = ctrl.attTiltPrioControl(quatDes, quaternion, angVelDes_rps, angVel_prs, angVelDotEst_rps);
         // set the external torques and forces
         phy.setExternalTorqueBody(Eigen::Vector3f(0.0, 0.0, 0.0));
         phy.setExternalForceBody(Eigen::Vector3f(0.0, 0.0, 0.0));
         // Update states
         // update all states
-        phy.updateState(params_phy.timeStep);
+        phy.updateState(params_phy.timeStep_s);
         // OUTPUT TO THE TERMINAL
         std::cout   << " position (NED): "
                     << position.x() << ", "

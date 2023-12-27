@@ -55,8 +55,8 @@ public:
     float imuGyrStdev;
     float baroPressureStdev;
     Eigen::Matrix3f inertiaMatrix_kgm2;
-    Eigen::Vector3f cogOffset;
-    Eigen::Vector3f initPos;
+    Eigen::Vector3f cogOffset_m;
+    Eigen::Vector3f initPos_m;
     pdParameters posCtrlRefDyn;
     pidParameters posCtrlPID;
     pdParameters altCtrlRefDyn;
@@ -74,9 +74,9 @@ class physicsParameters
 {
 public:
     static physicsParameters& getInstance();
-    float gravity;
-    float timeStep;
-    float timeEnd;
+    float gravity_mps2;
+    float timeStep_s;
+    float timeEnd_s;
     float R;  // Universal gas constant in J/(mol·K)
     float L;  // temperature lapse rate (K/m) at P0 and T0
     float airMolarMass;  // Molar mass of Earth's air in kg/mol

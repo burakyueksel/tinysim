@@ -63,7 +63,7 @@ altCtrlErrOutputs Control::altPidErrControl(float zDes_m, float z_m, float dzDes
     // Calculate the thrust for height control
     // Following lines will implement the correct thrust computation (assumption: thrust aligned with the body z axis)
     float R33 = geometry.quat2R33(quaternion);
-    outputs.accCmd_mps2     =   (params_phy.gravity + proportional + g_altPIDCtrlIntegral + derivative) / R33;
+    outputs.accCmd_mps2     =   (params_phy.gravity_mps2 + proportional + g_altPIDCtrlIntegral + derivative) / R33;
     outputs.controlThrust_N =   params_drone.mass_kg * outputs.accCmd_mps2;
 
     // Following lines implements generic PID, which will perform very well if you stick to the parametrization I gave in parameter.cpp.

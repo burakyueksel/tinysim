@@ -16,14 +16,14 @@ RigidPhysics::RigidPhysics()
     droneParameters& params_drone = droneParameters::getInstance();
     // Initialize the member variables
     velocity.setZero();
-    position = params_drone.initPos;
+    position = params_drone.initPos_m;
     angularVelocity.setZero();
     orientation.setIdentity();
     externalForceBody.setZero();
     externalTorqueBody.setZero();
 }
 
-void RigidPhysics::updateState(float timeStep) {
+void RigidPhysics::updateState(float timeStep_s) {
     Geometry geometry;
     droneParameters& params_drone = droneParameters::getInstance();
     physicsParameters& params_phy = physicsParameters::getInstance();
@@ -32,7 +32,7 @@ void RigidPhysics::updateState(float timeStep) {
     // Translational dynamics are evolving in inertial frame
     // Compute translational acceleration
     // Compute gravity force (NED reference frame)
-    Eigen::Vector3f gravityForce(0.0, 0.0, params_phy.gravity * params_drone.mass_kg);
+    Eigen::Vector3f gravityForce(0.0, 0.0, params_phy.gravity_mps2 * params_drone.mass_kg);
 
     // Get the orientation as rotation matrix
     Eigen::Matrix3f rotMat = geometry.quaternionToRotationMatrix(orientation);
@@ -43,8 +43,8 @@ void RigidPhysics::updateState(float timeStep) {
     // Compute acceleration
     acceleration = netForce / params_drone.mass_kg;
     // Update velocity and position
-    position = position + velocity * timeStep + 0.5 * acceleration * pow(timeStep,2) ;
-    velocity += acceleration * timeStep;
+    position = position + velocity * timeStep_s + 0.5 * acceleration * pow(timeStep_s,2) ;
+    velocity += acceleration * timeStep_s;
 
     // Update rotational dynamics:
     // Rotational dynamics are evolving in body frame
@@ -53,7 +53,7 @@ void RigidPhysics::updateState(float timeStep) {
     // Calculate the angular acceleration
     Eigen::Vector3f angularAcceleration  = params_drone.inertiaMatrix_kgm2.inverse() * (externalTorqueBody-angularMomentum);
     // Integrate the angular acceleration to update the angular velocity
-    angularVelocity += angularAcceleration * timeStep;
+    angularVelocity += angularAcceleration * timeStep_s;
     // Convert angular velocity to the time derivative of quaternion
     // source: https://ahrs.readthedocs.io/en/latest/filters/angular.html
     // source: https://github.com/burakyueksel/physics/blob/eeba843fe20e5fd4e2d5d2d3d9608ed038bfb069/src/physics.c#L93
@@ -63,10 +63,10 @@ void RigidPhysics::updateState(float timeStep) {
     orientationDot.y() =  0.5  * (angularVelocity.y() * orientation.w() - angularVelocity.z() * orientation.x() + angularVelocity.x() * orientation.z());
     orientationDot.z() =  0.5  * (angularVelocity.z() * orientation.w() + angularVelocity.y() * orientation.x() - angularVelocity.x() * orientation.y());
     // Integrate orientationDot with time step
-    orientation.w() += orientationDot.w() * timeStep;
-    orientation.x() += orientationDot.x() * timeStep;
-    orientation.y() += orientationDot.y() * timeStep;
-    orientation.z() += orientationDot.z() * timeStep;
+    orientation.w() += orientationDot.w() * timeStep_s;
+    orientation.x() += orientationDot.x() * timeStep_s;
+    orientation.y() += orientationDot.y() * timeStep_s;
+    orientation.z() += orientationDot.z() * timeStep_s;
     orientation.normalize();  // Normalize the quaternion
 }
 

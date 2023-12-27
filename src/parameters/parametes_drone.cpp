@@ -96,8 +96,8 @@ droneParameters::droneParameters():
       inertiaMatrix_kgm2((Eigen::Matrix3f() << 1.0, 0.0, 0.0,
                                           0.0, 2.0, 0.0,
                                           0.0, 0.0, 3.0).finished()),
-      cogOffset((Eigen::Vector3f() << 0.0, 0.0, 0.0).finished()),
-      initPos(Eigen::Vector3f::Zero()),
+      cogOffset_m((Eigen::Vector3f() << 0.0, 0.0, 0.0).finished()),
+      initPos_m(Eigen::Vector3f::Zero()),
       posCtrlRefDyn{computeKp(posRefOmega), computeKd(posRefOmega, posRefXi)}, // Kp, Kd
       posCtrlPID{computeKp(posOmega), computeKd(posOmega, posXi), 0.01},  // Kp, Kd, Ki
       altCtrlRefDyn{computeKp(altRefOmega), computeKd(altRefOmega, altRefXi)}, // Kp, Kd
