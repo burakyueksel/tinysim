@@ -86,14 +86,14 @@ float posRefXi    = 1.0; // critically damped
 droneParameters::droneParameters(): 
       droneType(DroneTypes::MC_QUAD),  // Initialize your parameters here
       mass_kg(1.0),    // kg
-      actBW(3.0),   // rad/s
-      indiOmegaBW(3.0), // rad/s
-      indiMuBW(3.0),    //rad/s
+      actBW_rps(3.0),   // rad/s
+      indiOmegaBW_rps(3.0), // rad/s
+      indiMuBW_rps(3.0),    //rad/s
       imuAccStdev (0.01),
       imuGyrStdev(0.001),
       baroPressureStdev(3.0), // standard deviation of noise (in Pa)
-      // example: inertiaMatrix(Eigen::Matrix3f::Identity()),
-      inertiaMatrix((Eigen::Matrix3f() << 1.0, 0.0, 0.0,
+      // example: inertiaMatrix_kgm2(Eigen::Matrix3f::Identity()),
+      inertiaMatrix_kgm2((Eigen::Matrix3f() << 1.0, 0.0, 0.0,
                                           0.0, 2.0, 0.0,
                                           0.0, 0.0, 3.0).finished()),
       cogOffset((Eigen::Vector3f() << 0.0, 0.0, 0.0).finished()),
@@ -103,12 +103,12 @@ droneParameters::droneParameters():
       altCtrlRefDyn{computeKp(altRefOmega), computeKd(altRefOmega, altRefXi)}, // Kp, Kd
       altCtrlPID{computeKp(altOmega), computeKd(altOmega, altXi), 0.01},  // Kp, Kd, Ki
       attCtrlTiltPrio{
-        (Eigen::Matrix3f() << 2*inertiaMatrix.coeff(0,0)/(omegaX*omegaX), 0.0, 0.0,
-                              0.0, 2*inertiaMatrix.coeff(1,1)/(omegaY*omegaY), 0.0,
-                              0.0, 0.0, 2*inertiaMatrix.coeff(2,2)/(omegaZ*omegaZ)).finished(),
-        (Eigen::Matrix3f() << 2*inertiaMatrix.coeff(0,0)*xiX/omegaX, 0.0, 0.0,
-                              0.0, 2*inertiaMatrix.coeff(1,1)*xiY/omegaY, 0.0,
-                              0.0, 0.0, 2*inertiaMatrix.coeff(2,2)*xiZ/omegaZ).finished()
+        (Eigen::Matrix3f() << 2*inertiaMatrix_kgm2.coeff(0,0)/(omegaX*omegaX), 0.0, 0.0,
+                              0.0, 2*inertiaMatrix_kgm2.coeff(1,1)/(omegaY*omegaY), 0.0,
+                              0.0, 0.0, 2*inertiaMatrix_kgm2.coeff(2,2)/(omegaZ*omegaZ)).finished(),
+        (Eigen::Matrix3f() << 2*inertiaMatrix_kgm2.coeff(0,0)*xiX/omegaX, 0.0, 0.0,
+                              0.0, 2*inertiaMatrix_kgm2.coeff(1,1)*xiY/omegaY, 0.0,
+                              0.0, 0.0, 2*inertiaMatrix_kgm2.coeff(2,2)*xiZ/omegaZ).finished()
       }
 {
     // Additional initialization if needed

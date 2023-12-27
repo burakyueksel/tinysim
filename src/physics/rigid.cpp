@@ -49,9 +49,9 @@ void RigidPhysics::updateState(float timeStep) {
     // Update rotational dynamics:
     // Rotational dynamics are evolving in body frame
     // Compute angular momentum
-    Eigen::Vector3f angularMomentum = angularVelocity.cross(params_drone.inertiaMatrix * angularVelocity);
+    Eigen::Vector3f angularMomentum = angularVelocity.cross(params_drone.inertiaMatrix_kgm2 * angularVelocity);
     // Calculate the angular acceleration
-    Eigen::Vector3f angularAcceleration  = params_drone.inertiaMatrix.inverse() * (externalTorqueBody-angularMomentum);
+    Eigen::Vector3f angularAcceleration  = params_drone.inertiaMatrix_kgm2.inverse() * (externalTorqueBody-angularMomentum);
     // Integrate the angular acceleration to update the angular velocity
     angularVelocity += angularAcceleration * timeStep;
     // Convert angular velocity to the time derivative of quaternion

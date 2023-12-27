@@ -23,14 +23,14 @@ Eigen::Vector3f Control::attRateIndiCtrl(Eigen::Vector3f omega_rps, Eigen::Vecto
     droneParameters& params_drone = droneParameters::getInstance();
 
     // filter omega and mu
-    omega_filt_states = omegaFilt.firstOrderSmoothFilter3d(omega_rps, params_drone.indiOmegaBW, timeStep_s);
-    mu_filt_states = muFilt.firstOrderSmoothFilter3d(mu_achieved_Nm, params_drone.indiMuBW, timeStep_s);
+    omega_filt_states = omegaFilt.firstOrderSmoothFilter3d(omega_rps, params_drone.indiOmegaBW_rps, timeStep_s);
+    mu_filt_states = muFilt.firstOrderSmoothFilter3d(mu_achieved_Nm, params_drone.indiMuBW_rps, timeStep_s);
 
     // delta nu: increment in state
     Eigen::Vector3f dNu = domega_des_rps - omega_filt_states.vel;
 
     // increment in moment, and then integration
-    Eigen::Vector3f mu_demand_Nm = mu_filt_states.pos + params_drone.inertiaMatrix * dNu;
+    Eigen::Vector3f mu_demand_Nm = mu_filt_states.pos + params_drone.inertiaMatrix_kgm2 * dNu;
 
     // return demanded moments.
     return mu_demand_Nm;
@@ -39,7 +39,7 @@ Eigen::Vector3f Control::attRateIndiCtrl(Eigen::Vector3f omega_rps, Eigen::Vecto
     /* This way absolute moments are computed and after control allocation absolute motor commands will be computed.
      * Another way is first compute the increment in moment, do control allocation and then do integration.
      * In this case no filtering is done to mu (we still do to omega), but to u. For G_inv is control allocation:
-     * Eigen::Vector 3d deltaMu = params_drone.inertiaMatrix * dNu; // delta moments
+     * Eigen::Vector 3d deltaMu = params_drone.inertiaMatrix_kgm2 * dNu; // delta moments
      * deltaU = G_inv * deltaMu; // delta motor commands
      * u_filt_states = uFilt.firstOrderSmoothFilterXd(u, bw, timeStep_s); // motor commands filtered for time equivalence
      * u = u_filt_states.pos + deltaU; // motor commands are integrated

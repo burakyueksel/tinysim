@@ -48,13 +48,13 @@ public:
 
     DroneTypes::Type droneType;
     float mass_kg;
-    float actBW;
-    float indiOmegaBW;
-    float indiMuBW;
+    float actBW_rps;
+    float indiOmegaBW_rps;
+    float indiMuBW_rps;
     float imuAccStdev;
     float imuGyrStdev;
     float baroPressureStdev;
-    Eigen::Matrix3f inertiaMatrix;
+    Eigen::Matrix3f inertiaMatrix_kgm2;
     Eigen::Vector3f cogOffset;
     Eigen::Vector3f initPos;
     pdParameters posCtrlRefDyn;

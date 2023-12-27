@@ -46,7 +46,7 @@ Eigen::Vector3f Control::attTiltPrioControl(Eigen::Quaternionf quatDes, Eigen::Q
     quatErrYaw.y() = 0.0;
     quatErrYaw.z() = oneOverQuatErrRedNorm * quatError.z();
     // eq. 23
-    Eigen::Vector3f tauFF = params_drone.inertiaMatrix*angVelDotEst_rps - (params_drone.inertiaMatrix*angVel_rps).cross(angVel_rps);
+    Eigen::Vector3f tauFF = params_drone.inertiaMatrix_kgm2*angVelDotEst_rps - (params_drone.inertiaMatrix_kgm2*angVel_rps).cross(angVel_rps);
     // eq. 21
     Eigen::Vector3f tauCtrl_Nm = params_drone.attCtrlTiltPrio.KP * quatErrRed.vec() +
                                  params_drone.attCtrlTiltPrio.KP(2,2) * mySignum(quatError.w()) * quatErrYaw.vec() +
