@@ -78,11 +78,11 @@ public:
     float timeStep_s;
     float timeEnd_s;
     float R;  // Universal gas constant in J/(mol·K)
-    float L;  // temperature lapse rate (K/m) at P0 and T0
+    float L_Kpm;  // temperature lapse rate (K/m) at P0 and T0
     float airMolarMass;  // Molar mass of Earth's air in kg/mol
-    float P0; // Standard atmospheric pressure at sea level (Pa)
-    float T0; // Standard temperature at sea level in K
-    float T0CK; // Zero Celcius in Kelvin
+    float P0_pa; // Standard atmospheric pressure at sea level (Pa)
+    float T0_K; // Standard temperature at sea level in K
+    float T0C_K; // Zero Celcius in Kelvin
     float TAmbient_C; // Static outside temperature in Celcius (C). Note: it can be approximated with TAmbient_C = T0 - L * altitudeAboveSeaLevel.
 
 private:

@@ -21,7 +21,8 @@ float computeAltitude(float pressure, float temperature)
 {
     physicsParameters& params_phy = physicsParameters::getInstance();
     // Compute the altitude using the ideal gas law and the international standard atmosphere model
-    float altitude = 0 + ((temperature + params_phy.T0CK) / params_phy.L) * (pow((pressure / params_phy.P0), (-1.0 * params_phy.L * params_phy.R / (params_phy.airMolarMass * params_phy.gravity_mps2)))-1.0);
+    float altitude = 0 + 
+                    ((temperature + params_phy.T0C_K) / params_phy.L_Kpm) * (pow((pressure / params_phy.P0_pa), (-1.0 * params_phy.L_Kpm * params_phy.R / (params_phy.airMolarMass * params_phy.gravity_mps2)))-1.0);
     return altitude;
 }
 
@@ -35,7 +36,8 @@ BaroStates Sensor::Baro::measurementModel(float temperature, float trueAltitude)
   barometer.temperature_c = temperature;
 
   // Compute pressure using the barometric formula. Zero bias.
-  barometer.pressure_pa = 0 + generateNormalDistribution(0.0, pressure_noise_stddev_) + params_phy.P0 * pow(1 + params_phy.L * (trueAltitude-0) / (temperature + params_phy.T0CK), -1.0 * (params_phy.gravity_mps2 * params_phy.airMolarMass) / (params_phy.R * params_phy.L));
+  barometer.pressure_pa = 0 + generateNormalDistribution(0.0, pressure_noise_stddev_) +
+                          params_phy.P0_pa * pow(1 + params_phy.L_Kpm * (trueAltitude-0) / (temperature + params_phy.T0C_K), -1.0 * (params_phy.gravity_mps2 * params_phy.airMolarMass) / (params_phy.R * params_phy.L_Kpm));
 
   // compute altitude from pressure and temperature
   barometer.altitude_m = computeAltitude(barometer.pressure_pa, barometer.temperature_c);
