@@ -43,13 +43,13 @@ public:
 
 private:
     // States of the rigid body
-    Eigen::Vector3f position;
-    Eigen::Vector3f velocity;
-    Eigen::Vector3f acceleration;
-    Eigen::Vector3f angularVelocity; // Angular velocity as a member variable
+    Eigen::Vector3f position_m;
+    Eigen::Vector3f velocity_mps;
+    Eigen::Vector3f acceleration_mps2;
+    Eigen::Vector3f angularVelocity_rps; // Angular velocity as a member variable
     Eigen::Quaternionf orientation; // Orientation as a member variable
-    Eigen::Vector3f externalTorqueBody; // External torque in body frame as a member variable
-    Eigen::Vector3f externalForceBody; // External force in body frame as a member variable
+    Eigen::Vector3f externalTorqueBody_Nm; // External torque in body frame as a member variable
+    Eigen::Vector3f externalForceBody_N; // External force in body frame as a member variable
     // Add other relevant private member variables
 
     // Define other relevant private member variables
