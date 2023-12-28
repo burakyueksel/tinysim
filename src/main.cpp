@@ -6,6 +6,7 @@
  * Author: Burak Yueksel
  * Date: 2023-12-02
  */
+#include "fusion.h"
 #include "controls.h"
 #include "parameters.h"
 #include "physics.h"
@@ -29,6 +30,11 @@ int main()
     droneParameters& params_drone = droneParameters::getInstance();
     physicsParameters& params_phy = physicsParameters::getInstance();
 
+    // Fusion
+    int n = 3;
+    KalmanFilter kf(n, params_phy.timeStep_s);
+
+    // Set simulation
     int numSteps = params_phy.timeEnd_s/params_phy.timeStep_s;
 
     for (int step = 0; step < numSteps; ++step)
@@ -53,6 +59,17 @@ int main()
         // GNSS
         // RADAR
         // LIDAR
+        // FUSION
+        /* Example.
+        // Prediction step
+        kf.predict();
+        // Get measurement
+        Eigen::VectorXd measurement = Eigen::VectorXd::Random(n);
+        // Update step
+        kf.update(measurement);
+        // Print current state estimate
+        std::cout << "Time: " << step << ", State: " << kf.getState().transpose() << std::endl;
+        */
         /* CONTROL*/
         // float zCmd = -10.0; // meaning 10 meters up
         // altCtrlErrOutputs altCtrl = ctrl.altPidControl(zCmd, position.z(), velocity.z(), quaternion, params_phy.timeStep_s);

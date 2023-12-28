@@ -28,6 +28,7 @@ file(GLOB SOURCES "src/*.cpp"
                   "src/sensors/*.cpp"
                   "src/controls/*.cpp"
                   "src/filters/*.cpp"
+                  "src/fusion/*.cpp"
                   "src/geometry/*.cpp")
 
 # Create the executable
