@@ -8,17 +8,17 @@
  */
 #include "fusion.h"
 
-KalmanFilter::KalmanFilter(int n, double dt) : n(n), dt(dt)
+KalmanFilter::KalmanFilter(int n, float dt) : n(n), dt(dt)
 {
     // Initialize matrices and vectors based on user-defined dimension (n)
     // TODO: Allow initialization from outside. Right now it is hard codded here, which is not nice
     // because for each KF instance you probably gonna use different matrices and parameters.
-    A = Eigen::MatrixXd::Identity(n, n);
-    H = Eigen::MatrixXd::Identity(n, n);
-    Q = Eigen::MatrixXd::Identity(n, n);
-    R = Eigen::MatrixXd::Identity(n, n);
-    x_hat = Eigen::VectorXd::Zero(n);
-    P = Eigen::MatrixXd::Identity(n, n);
+    A = Eigen::MatrixXf::Identity(n, n);
+    H = Eigen::MatrixXf::Identity(n, n);
+    Q = Eigen::MatrixXf::Identity(n, n);
+    R = Eigen::MatrixXf::Identity(n, n);
+    x_hat = Eigen::VectorXf::Zero(n);
+    P = Eigen::MatrixXf::Identity(n, n);
 }
 
 void KalmanFilter::predict()
@@ -28,15 +28,15 @@ void KalmanFilter::predict()
     P = A * P * A.transpose() + Q;
 }
 
-void KalmanFilter::update(const Eigen::VectorXd& z)
+void KalmanFilter::update(const Eigen::VectorXf& z)
 {
     // Update step
-    Eigen::MatrixXd K = P * H.transpose() * (H * P * H.transpose() + R).inverse();
+    Eigen::MatrixXf K = P * H.transpose() * (H * P * H.transpose() + R).inverse();
     x_hat = x_hat + K * (z - H * x_hat);
-    P = (Eigen::MatrixXd::Identity(n, n) - K * H) * P;
+    P = (Eigen::MatrixXf::Identity(n, n) - K * H) * P;
 }
 
-Eigen::VectorXd KalmanFilter::getState() const
+Eigen::VectorXf KalmanFilter::getState() const
 {
     return x_hat;
 }

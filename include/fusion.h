@@ -12,18 +12,18 @@
 class KalmanFilter 
 {
 public:
-    KalmanFilter(int n, double dt);
+    KalmanFilter(int n, float dt);
     void predict();
-    void update(const Eigen::VectorXd& z);
-    Eigen::VectorXd getState() const;
+    void update(const Eigen::VectorXf& z);
+    Eigen::VectorXf getState() const;
 
 private:
     int n;      // Dimension of the state vector
-    double dt;  // Time step
-    Eigen::MatrixXd A; // State transition matrix
-    Eigen::MatrixXd H; // Measurement matrix
-    Eigen::MatrixXd Q; // Process noise covariance matrix
-    Eigen::MatrixXd R; // Measurement noise covariance matrix
-    Eigen::VectorXd x_hat; // State estimate
-    Eigen::MatrixXd P; // Estimate covariance matrix
+    float dt;   // Time step
+    Eigen::MatrixXf A; // State transition matrix
+    Eigen::MatrixXf H; // Measurement matrix
+    Eigen::MatrixXf Q; // Process noise covariance matrix
+    Eigen::MatrixXf R; // Measurement noise covariance matrix
+    Eigen::VectorXf x_hat; // State estimate
+    Eigen::MatrixXf P; // Estimate covariance matrix
 };
