@@ -29,10 +29,13 @@ int main()
     // Get parameters
     droneParameters& params_drone = droneParameters::getInstance();
     physicsParameters& params_phy = physicsParameters::getInstance();
+    // Get Kalman Filter Parameters
+    fusionParameters& params_fusion = fusionParameters::getInstance();
 
-    // Fusion
-    int n = 3;
-    KalmanFilter kf(n, params_phy.timeStep_s);
+    // Set Fusion
+    // TODO: so far 1 KF is created. But the code is written in a way that one can crate
+    // as many as one wants. parameters_fusion shall be updated and expanded accordingly.
+    KalmanFilter kf(params_fusion.dim, params_phy.timeStep_s, params_fusion.xInit, params_fusion.PInit);
 
     // Set simulation
     int numSteps = params_phy.timeEnd_s/params_phy.timeStep_s;
@@ -61,15 +64,15 @@ int main()
         // LIDAR
         // FUSION
         /* Example.
+        */
         // Prediction step
         kf.predict();
         // Get measurement
-        Eigen::VectorXd measurement = Eigen::VectorXd::Random(n);
+        Eigen::VectorXf measurement = Eigen::VectorXf::Random(params_fusion.dim);
         // Update step
         kf.update(measurement);
         // Print current state estimate
         std::cout << "Time: " << step << ", State: " << kf.getState().transpose() << std::endl;
-        */
         /* CONTROL*/
         // float zCmd = -10.0; // meaning 10 meters up
         // altCtrlErrOutputs altCtrl = ctrl.altPidControl(zCmd, position.z(), velocity.z(), quaternion, params_phy.timeStep_s);

@@ -8,7 +8,8 @@
  */
 #include "fusion.h"
 
-KalmanFilter::KalmanFilter(int n, float dt) : n(n), dt(dt)
+KalmanFilter::KalmanFilter(int n, double dt, const Eigen::VectorXf& initial_state, const Eigen::MatrixXf& initial_covariance)
+    : n(n), dt(dt), x_hat(initial_state), P(initial_covariance)
 {
     // Initialize matrices and vectors based on user-defined dimension (n)
     // TODO: Allow initialization from outside. Right now it is hard codded here, which is not nice

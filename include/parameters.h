@@ -40,7 +40,9 @@ struct pdParameters
     float Kd;
 };
 
+//============================================
 // DRONE PARAMETERS
+
 class droneParameters
 {
 public:
@@ -69,7 +71,9 @@ private:
     droneParameters& operator=(const droneParameters&) = delete;
 };
 
+//============================================
 // PHYSICS PARAMETERS
+
 class physicsParameters
 {
 public:
@@ -91,6 +95,7 @@ private:
     physicsParameters& operator=(const physicsParameters&) = delete;
 };
 
+//============================================
 // GEOMETRY PARAMETERS
 
 class geometricParameters
@@ -102,4 +107,20 @@ private:
     geometricParameters(); // Private constructor to enforce Singleton pattern
     geometricParameters(const geometricParameters&) = delete;
     geometricParameters& operator=(const geometricParameters&) = delete;
+};
+
+//============================================
+// SENSOR FUSION PARAMETERS
+
+class fusionParameters
+{
+public:
+    static fusionParameters& getInstance();
+    int dim; // dimension
+    Eigen::VectorXf xInit; // initial state
+    Eigen::MatrixXf PInit; // initial covariance
+private:
+    fusionParameters(); // Private constructor to enforce Singleton pattern
+    fusionParameters(const fusionParameters&) = delete;
+    fusionParameters& operator=(const fusionParameters&) = delete;
 };
