@@ -2,6 +2,16 @@
 A tiny simulator for aerial robots.
 It is written in c++.
 
+## Functions
+
+### Controls
+### Fusion
+### Geometry
+### Parameters
+### Physics
+### Sensors
+
+## Building
 ### Run everything in one go
 
 ```console
