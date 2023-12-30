@@ -18,8 +18,8 @@ KalmanFilter::KalmanFilter(int n, double dt, const Eigen::VectorXf& initial_stat
     H = Eigen::MatrixXf::Identity(n, n);
     Q = Eigen::MatrixXf::Identity(n, n);
     R = Eigen::MatrixXf::Identity(n, n);
-    x_hat = Eigen::VectorXf::Zero(n);
-    P = Eigen::MatrixXf::Identity(n, n);
+    //x_hat = Eigen::VectorXf::Zero(n);
+    //P = Eigen::MatrixXf::Identity(n, n);
 }
 
 void KalmanFilter::predict()
