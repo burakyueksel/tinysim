@@ -21,7 +21,6 @@ public:
 
 private:
     int n;      // Dimension of the state vector
-    float dt;   // Time step
     Eigen::MatrixXf A; // State transition matrix
     Eigen::MatrixXf H; // Measurement matrix
     Eigen::MatrixXf Q; // Process noise covariance matrix

@@ -11,7 +11,7 @@
 KalmanFilter::KalmanFilter(const Eigen::MatrixXf& A, const Eigen::MatrixXf& H, const Eigen::MatrixXf& Q,
                            const Eigen::MatrixXf& R, const Eigen::VectorXf& initial_state,
                            const Eigen::MatrixXf& initial_covariance)
-    : n(initial_state.size()), dt(dt), A(A), H(H), Q(Q), R(R), x_hat(initial_state), P(initial_covariance)
+    : n(initial_state.size()), A(A), H(H), Q(Q), R(R), x_hat(initial_state), P(initial_covariance)
 {
     // Initialize matrices and vectors based on user-defined dimension (n)
     // TODO: Allow initialization from outside. Right now it is hard codded here, which is not nice
