@@ -18,6 +18,10 @@ int main()
 {
     // Open a file to store the logs
     std::ofstream logFile("log.txt");
+    // Get parameters
+    droneParameters& params_drone = droneParameters::getInstance();
+    physicsParameters& params_phy = physicsParameters::getInstance();
+    fusionParameters& params_fusion = fusionParameters::getInstance();
     // Set Physics
     RigidPhysics phy;
     // Set Controls
@@ -26,17 +30,10 @@ int main()
     Sensor sens;
     Sensor::IMU imu;
     Sensor::Baro baro;
-    // Get parameters
-    droneParameters& params_drone = droneParameters::getInstance();
-    physicsParameters& params_phy = physicsParameters::getInstance();
-    // Get Kalman Filter Parameters
-    fusionParameters& params_fusion = fusionParameters::getInstance();
-
     // Set Fusion
     // TODO: so far 1 KF is created. But the code is written in a way that one can crate
     // as many as one wants. parameters_fusion shall be updated and expanded accordingly.
-    KalmanFilter kf(params_fusion.dim, params_phy.timeStep_s, params_fusion.xInit, params_fusion.PInit);
-
+    KalmanFilter kf(params_fusion.A, params_fusion.H, params_fusion.Q, params_fusion.R, params_fusion.xInit, params_fusion.PInit);
     // Set simulation
     int numSteps = params_phy.timeEnd_s/params_phy.timeStep_s;
 

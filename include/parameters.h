@@ -117,6 +117,10 @@ class fusionParameters
 public:
     static fusionParameters& getInstance();
     int dim; // dimension
+    Eigen::MatrixXf A; // State transition matrix
+    Eigen::MatrixXf H; // Measurement matrix
+    Eigen::MatrixXf Q; // Process noise covariance matrix
+    Eigen::MatrixXf R; // Measurement noise covariance matrix
     Eigen::VectorXf xInit; // initial state
     Eigen::MatrixXf PInit; // initial covariance
 private:

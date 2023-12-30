@@ -12,7 +12,9 @@
 class KalmanFilter 
 {
 public:
-    KalmanFilter(int n, double dt, const Eigen::VectorXf& initial_state, const Eigen::MatrixXf& initial_covariance);
+    KalmanFilter(const Eigen::MatrixXf& A, const Eigen::MatrixXf& H, const Eigen::MatrixXf& Q,
+                 const Eigen::MatrixXf& R, const Eigen::VectorXf& initial_state,
+                 const Eigen::MatrixXf& initial_covariance);
     void predict();
     void update(const Eigen::VectorXf& z);
     Eigen::VectorXf getState() const;
