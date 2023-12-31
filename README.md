@@ -5,7 +5,11 @@ It is written in c++.
 ## Functions
 
 ### Controls
+See src/controls for the implementation.
+
 ### Fusion
+See src/fusion for the implementation.
+
 ### Geometry
 ### Parameters
 ### Physics
