@@ -97,3 +97,25 @@ float getcollectiveThrust_B (Eigen::Vector3f acc_I, float psi_rad)
 
     return collectiveThrust_B;
 }
+
+Eigen::Vector3d getOmega_B (Eigen::Vector3f acc_I, Eigen::Vector3f jerk_I, float psi_rad, float psi_dot_rps)
+{
+    Eigen::Vector3f x_I_B   = get_x_I_B(acc_I, psi_rad);
+    Eigen::Vector3f y_I_B   = get_y_I_B(acc_I, psi_rad);
+    Eigen::Vector3f z_I_B   = get_z_I_B(acc_I, psi_rad);
+
+    float c = getcollectiveThrust_B;
+
+    Eigen::Vector3f x_I_C = get_x_I_C(float psi_rad);
+    Eigen::Vector3f y_I_C = get_y_I_C(float psi_rad);
+    Eigen::Vector3f yxz   = y_I_C.cross(z_I_B);   // y_I_C x z_I_B
+    float norm_yxz = yxz.norm();    // compute its norm
+    norm_yxz = (norm_yxz < 1e-6) ? 1e-6 : norm_yxz; // protect division by small number
+
+    float omega_x = y_I_B.transpose() * jerk_I / c;
+    float omega_y = -x_I_B.transpose() * jerk_I / c;
+    float omega_z = (psi_dot_rps*x_I_C.transpose()*x_I_B + omega_y*y_I_C.transpose()*z_I_B)/norm_yxz;
+
+    Eigen::Vector3f omega_B (mega_x, omega_y, omega_z);
+    return omega_B;
+}
