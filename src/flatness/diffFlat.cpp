@@ -98,13 +98,13 @@ float getcollectiveThrust_B (Eigen::Vector3f acc_I, float psi_rad)
     return collectiveThrust_B;
 }
 
-Eigen::Vector3d getOmega_B (Eigen::Vector3f acc_I, Eigen::Vector3f jerk_I, float psi_rad, float psi_dot_rps)
+Eigen::Vector3f getOmega_B (Eigen::Vector3f acc_I, Eigen::Vector3f jerk_I, float psi_rad, float psi_dot_rps)
 {
     Eigen::Vector3f x_I_B   = get_x_I_B(acc_I, psi_rad);
     Eigen::Vector3f y_I_B   = get_y_I_B(acc_I, psi_rad);
     Eigen::Vector3f z_I_B   = get_z_I_B(acc_I, psi_rad);
 
-    float c = getcollectiveThrust_B;
+    float c = getcollectiveThrust_B(acc_I, psi_rad);
 
     Eigen::Vector3f x_I_C = get_x_I_C(float psi_rad);
     Eigen::Vector3f y_I_C = get_y_I_C(float psi_rad);
@@ -116,6 +116,38 @@ Eigen::Vector3d getOmega_B (Eigen::Vector3f acc_I, Eigen::Vector3f jerk_I, float
     float omega_y = -x_I_B.transpose() * jerk_I / c;
     float omega_z = (psi_dot_rps*x_I_C.transpose()*x_I_B + omega_y*y_I_C.transpose()*z_I_B)/norm_yxz;
 
-    Eigen::Vector3f omega_B (mega_x, omega_y, omega_z);
+    Eigen::Vector3f omega_B (omega_x, omega_y, omega_z);
     return omega_B;
+}
+
+float getcollectiveThrustDot_B (Eigen::Vector3f acc_I, Eigen::Vector3f jerk_I, float psi_rad)
+{
+    Eigen::Vector3f z_I_B   = get_z_I_B(acc_I, psi_rad);
+    float c_dot = z_I_B.transpose()*jerk_I;
+
+    return c_dot;
+}
+
+Eigen::Vector3f getOmegaDot_B (Eigen::Vector3f acc_I, Eigen::Vector3f jerk_I, Eigen::Vector3f snap_I, float psi_rad, float psi_dot_rps, float psi_ddot_rps2)
+{
+    Eigen::Vector3f x_I_B   = get_x_I_B(acc_I, psi_rad);
+    Eigen::Vector3f y_I_B   = get_y_I_B(acc_I, psi_rad);
+    Eigen::Vector3f z_I_B   = get_z_I_B(acc_I, psi_rad);
+    Eigen::Vector3f x_I_C   = get_x_I_C(float psi_rad);
+    Eigen::Vector3f y_I_C   = get_y_I_C(float psi_rad);
+    Eigen::Vector3f omegaB  = getOmega_B (acc_I, jerk_I, psi_rad, psi_dot_rps);
+    float c = getcollectiveThrust_B(acc_I, psi_rad);
+    float c_dot = getcollectiveThrustDot_B(acc_I, jerk_I, psi_rad);
+    Eigen::Vector3f yxz   = y_I_C.cross(z_I_B);   // y_I_C x z_I_B
+    float norm_yxz = yxz.norm();    // compute its norm
+    norm_yxz = (norm_yxz < 1e-6) ? 1e-6 : norm_yxz; // protect division by small number
+
+    float omega_x_dot =  y_I_B.transpose()*snap_I/c - 2 * omegaB.x * c_dot / c + omegaB.y * omegaB.z;
+    float omega_y_dot = -x_I_B.transpose()*snap_I/c - 2 * omegaB.y * c_dot / c - omegaB.x * omegaB.z;
+    float omega_z_dot = 1/norm_yxz * (  psi_ddot_rps2*x_I_C.transpose()*x_I_B
+                                      - 2*psi_dot_rps*omegaB.y*x_I_C.transpose()*z_I_B
+                                      - omegaB.x*omegaB.y*y_I_C.transpose()*y_I_B
+                                      -(omegaB.x*omegaB.z-omega_y_dot)*y_I_C.transpose()*z_I_B);
+    Eigen::Vector3f omega_dot_B (omega_x_dot, omega_y_dot, omega_z_dot);
+    return omega_dot_B;
 }

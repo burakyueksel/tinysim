@@ -13,6 +13,10 @@ Here I collect different control algorithms used in aerial robotics. See src/con
 - [x] An INDI controller for attitude rate control.
 - [x] A quaternion based tilt prioritizing attitude control.
 - [x] A PID conroller for horizontal position control with its reference dynamics.
+- [ ] A full geometric control in SE3.
+
+### Flatness
+- [ ] Differential flatness functions for 1-1 mapping between states, trajectories and the inputs.
 
 ### Fusion
 Here I collect sensor fusion algorithms. See src/fusion for the implementation.
