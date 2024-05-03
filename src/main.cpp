@@ -62,12 +62,9 @@ int main()
         // FUSION
         /* Example.
         */
-        // Prediction step
-        kf.predict();
-        // Get measurement
+        // Get measurement and run kf
         Eigen::VectorXf measurement = Eigen::VectorXf::Random(params_fusion.dim);
-        // Update step
-        kf.update(measurement);
+        kf.run(measurement);
         // Print current state estimate
         std::cout << "Time: " << step << ", State: " << kf.getState().transpose() << std::endl;
         /* CONTROL*/

@@ -17,6 +17,7 @@ public:
                  const Eigen::MatrixXf& initial_covariance);
     void predict();
     void update(const Eigen::VectorXf& z);
+    void run(Eigen::VectorXf& z);
     Eigen::VectorXf getState() const;
 
 private:
