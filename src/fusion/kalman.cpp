@@ -43,3 +43,9 @@ Eigen::VectorXf KalmanFilter::getState() const
 {
     return x_hat;
 }
+
+void KalmanFilter::run(Eigen::VectorXf& measurement)
+{
+    predict();
+    update(measurement);
+}
