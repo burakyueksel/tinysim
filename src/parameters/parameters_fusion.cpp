@@ -8,8 +8,7 @@
  */
 #include "parameters.h"
 
-// Geo aux parameters
-
+// Initialize kalman parameters here.
 
 fusionParameters::fusionParameters(): 
     dim(3),
