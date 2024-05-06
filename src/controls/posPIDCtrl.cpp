@@ -75,8 +75,7 @@ horizontalStates Control::posCtrlErr(posCtrlRefStates posRefStates, Eigen::Vecto
 
 horizontalStates Control::posPidControl(horizontalStates posCmd, Eigen::Vector3f position, Eigen::Vector3f velocity, float timeStep_s)
 {
-    Control ctrl;
-    // step command in height. Pass it through the 2nd order reference dynamics for smooth trajectories
+    // step command in horizontal positions. Pass it through the 2nd order reference dynamics for smooth trajectories
     posCtrlRefStates posRefStates = posControlRefDyn(posCmd, timeStep_s);
     // follow the trajectories with a PID
     horizontalStates accXYRef = posCtrlErr(posRefStates, position, velocity, timeStep_s);

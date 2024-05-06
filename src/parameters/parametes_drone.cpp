@@ -39,7 +39,7 @@ its motion within this bandwidth, no matter what the disturbances are.
 TODO: consider adding electric motor physical model and a speed
 controller for it with torque limitations.
 */
-float actuatorBandWidth = 3.0;
+float actuatorBandWidth = 20.0;
 /*
 We assume then that the actuator is the fastest moving element of the drone,
 compared to its translational and rotational motion.
@@ -86,7 +86,7 @@ float posRefXi    = 1.0; // critically damped
 droneParameters::droneParameters(): 
       droneType(DroneTypes::MC_QUAD),  // Initialize your parameters here
       mass_kg(1.0),    // kg
-      actBW_rps(3.0),   // rad/s
+      actBW_rps(actuatorBandWidth),   // rad/s
       indiOmegaBW_rps(3.0), // rad/s
       indiMuBW_rps(3.0),    //rad/s
       imuAccStdev (0.01),

@@ -35,16 +35,23 @@ struct altCtrlErrOutputs
     float accCmd_mps2;
 };
 
+struct altCtrl
+{
+    altCtrlRefStates altRef;
+    altCtrlErrOutputs altOut;
+};
+
 class Control
 {
 public:
     /**
      * @brief Control functions
      */
+    Control();  // Constructor to initialize the object
     // alt ctrl
     altCtrlRefStates altControlRefDyn(float zCmd_m, float timeStep_s);
     altCtrlErrOutputs altPidErrControl(float zDes_m, float z_m, float dzDes_mps, float dz_mps, Eigen::Quaternionf quaternion, float timeStep_s);
-    altCtrlErrOutputs altPidControl(float zCmd_m, float z_m, float dz_mps, Eigen::Quaternionf quaternion, float timeStep_s);
+    altCtrl altPidControl(float zCmd_m, float z_m, float dz_mps, Eigen::Quaternionf quaternion, float timeStep_s);
     // att ctrl
     Eigen::Vector3f attRateIndiCtrl(Eigen::Vector3f omega_rps, Eigen::Vector3f domega_des_rps, Eigen::Vector3f mu_Nm, float timeStep_s);
     Eigen::Vector3f attTiltPrioControl(Eigen::Quaternionf quatDes, Eigen::Quaternionf quaternion, Eigen::Vector3f angVelDes_rps, Eigen::Vector3f angVel_rps, Eigen::Vector3f angVelDotEst_rps2);

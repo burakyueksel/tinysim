@@ -12,6 +12,16 @@
 #include "physics.h"
 #include "geometry.h"
 
+// TODO: move this to a control.cpp file, because we will need to init att and pos ctrl initial states too!
+Control::Control()
+{
+    droneParameters& params_drone = droneParameters::getInstance();
+    // Initialize the member variables
+    g_altCtrlRefDynStates.zRef_m        = 0.0;
+    g_altCtrlRefDynStates.dzRef_mps     = 0.0;
+    g_altCtrlRefDynStates.ddzRef_mps2   = 0.0;
+};
+
 // Altitude Ref Dynamics
 // Note: both ref and err ctrl are defined under Control class, so we can reach the private globals.
 altCtrlRefStates Control::altControlRefDyn(float zCmd_m, float timeStep_s)
@@ -72,13 +82,16 @@ altCtrlErrOutputs Control::altPidErrControl(float zDes_m, float z_m, float dzDes
     return outputs;
 }
 
-altCtrlErrOutputs Control::altPidControl(float zCmd_m, float z_m, float dz_mps, Eigen::Quaternionf quaternion, float timeStep_s)
+altCtrl Control::altPidControl(float zCmd_m, float z_m, float dz_mps, Eigen::Quaternionf quaternion, float timeStep_s)
 {
-    Control ctrl;
+    altCtrl altCtrlOut;
     // step command in height. Pass it through the 2nd order reference dynamics for smooth trajectories
     altCtrlRefStates altRefStates = altControlRefDyn(zCmd_m, timeStep_s);
     // follow the trajectories with a PID
     altCtrlErrOutputs altCtrlOutputs = altPidErrControl(altRefStates.zRef_m, z_m, altRefStates.dzRef_mps, dz_mps, quaternion, timeStep_s);
 
-    return altCtrlOutputs;
+    altCtrlOut.altRef = altRefStates;
+    altCtrlOut.altOut = altCtrlOutputs;
+
+    return altCtrlOut;
 }

@@ -68,12 +68,13 @@ int main()
         // Print current state estimate
         std::cout << "Time: " << step << ", State: " << kf.getState().transpose() << std::endl;
         /* CONTROL*/
-        // float zCmd = -10.0; // meaning 10 meters up
-        // altCtrlErrOutputs altCtrl = ctrl.altPidControl(zCmd, position.z(), velocity.z(), quaternion, params_phy.timeStep_s);
+        float zCmd = -10.0; // meaning 10 meters up
+        altCtrl altCtrl = ctrl.altPidControl(zCmd, position.z(), velocity.z(), quaternion, params_phy.timeStep_s);
         //Eigen::Vector3f torqueCtrl = ctrl.attTiltPrioControl(quatDes, quaternion, angVelDes_rps, angVel_prs, angVelDotEst_rps);
         // set the external torques and forces
+        std::cout << "Thrust Nm: " << altCtrl.altOut.controlThrust_N << std::endl;
         phy.setExternalTorqueBody(Eigen::Vector3f(0.0, 0.0, 0.0));
-        phy.setExternalForceBody(Eigen::Vector3f(0.0, 0.0, 0.0));
+        phy.setExternalForceBody(Eigen::Vector3f(0.0, 0.0, altCtrl.altOut.controlThrust_N));
         // Update states
         // update all states
         phy.updateState(params_phy.timeStep_s);
@@ -96,6 +97,7 @@ int main()
         logFile << currentTime
                     << " " << position.x() << " " << position.y() << " " << position.z()
                     << " " << quaternion.w() << " " << quaternion.x() << " " << quaternion.y() << " " << quaternion.z()
+                    << " " << altCtrl.altRef.zRef_m << " " << altCtrl.altRef.dzRef_mps << " " << altCtrl.altRef.ddzRef_mps2
                     << "\n";
     }
     // Close the output file
