@@ -13,8 +13,8 @@
 
 physicsParameters::physicsParameters(): 
     gravity_mps2(9.80665), // m/s2
-    timeStep_s(0.01), // s
-    timeEnd_s(100), //s
+    timeStep_s(0.001), // s
+    timeEnd_s(10), //s
     R(8.31447),  // Universal gas constant in J/(mol·K)
     L_Kpm(-0.0065),  // Temperature lapse rate (K/m) at P0 and T0
     airMolarMass(0.0289644),  // Molar mass of Earth's air in kg/mol
