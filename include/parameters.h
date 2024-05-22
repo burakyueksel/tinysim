@@ -50,7 +50,7 @@ public:
 
     DroneTypes::Type droneType;
     float mass_kg;
-    float actBW_rps;
+    float actTime_s;
     float indiOmegaBW_rps;
     float indiMuBW_rps;
     float imuAccStdev;
